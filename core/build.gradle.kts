@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     // jetbrains
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
     // maven
     id("maven-publish")
 }

@@ -9,11 +9,12 @@ android {
     namespace  = "ir.farsroidx.app"
     compileSdk = 33
     defaultConfig {
-        applicationId = "ir.farsroidx.app"
-        minSdk        = 21
-        targetSdk     = 33
-        versionCode   = 1
-        versionName   = "1.0.0"
+        applicationId   = "ir.farsroidx.app"
+        minSdk          = 21
+        targetSdk       = 33
+        versionCode     = 1
+        versionName     = "1.0.0"
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,6 +42,7 @@ dependencies {
 
     // Android-X
     implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     // =-------------------------------------------------------------------------------------------=
