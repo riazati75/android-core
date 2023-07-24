@@ -7,6 +7,9 @@ plugins {
     id("maven-publish")
 }
 
+group   = "ir.farsroidx"
+version = "1.0.0"
+
 android {
     namespace  = "ir.farsroidx.core"
     compileSdk = 33
