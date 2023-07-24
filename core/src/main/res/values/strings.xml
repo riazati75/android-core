@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_exception_process">:ExceptionReporter</string>
+
+    <string name="please_wait">Please Wait…</string>
+
+    <string name="stack_trace">Stack Trace:</string>
+
+    <string name="email_app_not_found">An email program was not found on your device</string>
+
+</resources>

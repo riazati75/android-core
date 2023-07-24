@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Style.Farsroidx.Clickable.Borderless" parent="">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="colorControlHighlight">@color/gray500</item>
+    </style>
+
+    <style name="Style.Farsroidx.Clickable.Rectangle" parent="">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="colorControlHighlight">@color/gray500</item>
+    </style>
+
+    <style name="Theme.Farsroidx.Dialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/Style.Farsroidx.Dialog</item>
+        <item name="android:background">@color/white</item>
+        <item name="materialAlertDialogTitlePanelStyle">@style/Style.Farsroidx.Dialog.Title.Panel</item>
+        <item name="materialAlertDialogTitleIconStyle">@style/Style.Farsroidx.Dialog.Title.Icon</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Style.Farsroidx.Dialog.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Style.Farsroidx.Dialog.Body.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Style.Farsroidx.Dialog.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Style.Farsroidx.Dialog.Button.Negative</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Style.Farsroidx.Dialog.Button.Neutral</item>
+        <item name="dialogCornerRadius">10dp</item>
+        <item name="colorSurface">@color/black</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/Style.Farsroidx.Dialog.ShapeAppearance.MediumComponent</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Title.Icon" parent="MaterialAlertDialog.MaterialComponents.Title.Icon">
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Title.Panel" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
+        <item name="android:gravity">center</item>
+<!--         <item name="android:orientation">vertical</item> -->
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/light_blue_100</item>
+        <item name="android:textColor">@color/light_blue_400</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="shapeAppearance">@style/Style.Farsroidx.Dialog.ShapeAppearance.SmallComponent </item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/light_blue_100</item>
+        <item name="android:textColor">@color/gray500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="shapeAppearance">@style/Style.Farsroidx.Dialog.ShapeAppearance.SmallComponent </item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/light_blue_100</item>
+        <item name="android:textColor">@color/gray500</item>
+        <item name="android:textSize">14sp</item>
+        <item name="shapeAppearance">@style/Style.Farsroidx.Dialog.ShapeAppearance.SmallComponent </item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.ShapeAppearance.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.ShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="Style.Farsroidx.Dialog.ShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Style.Farsroidx.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="Style.Farsroidx.FontFamily" parent="">
+        <item name="android:fontFamily">@font/iran_sans_regular</item>
+        <item name="fontFamily">@font/iran_sans_regular</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+</resources>

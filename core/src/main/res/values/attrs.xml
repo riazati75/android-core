@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="frsx_SquaredBy" format="enum">
+        <enum name="width"  value="14" />
+        <enum name="height" value="15" />
+    </attr>
+
+    <declare-styleable name="OtpCodeView">
+
+        <attr name="frsx_CodeLength" format="integer" />
+        <attr name="frsx_MarginBetween" format="dimension" />
+
+        <attr name="frsx_LoggedBackground" format="reference" />
+        <attr name="frsx_LoggedWHeight" format="dimension" />
+        <attr name="frsx_LoggedElevation" format="dimension" />
+        <attr name="frsx_LoggedTextColor" format="color" />
+        <attr name="frsx_LoggedTextSize" format="float" />
+        <attr name="frsx_LoggedTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+            <enum name="bold_italic" value="3" />
+        </attr>
+
+        <attr name="frsx_DefaultBackground" format="reference" />
+        <attr name="frsx_DefaultWHeight" format="dimension" />
+        <attr name="frsx_DefaultElevation" format="dimension" />
+        <attr name="frsx_DefaultTextColor" format="color" />
+        <attr name="frsx_DefaultTextSize" format="float" />
+        <attr name="frsx_DefaultTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+            <enum name="bold_italic" value="3" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="RotateLayout">
+        <attr name="frsx_Angle" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SquareCardView">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareImageView">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareLottieView">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+</resources>
