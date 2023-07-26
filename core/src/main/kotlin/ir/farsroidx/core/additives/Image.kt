@@ -54,12 +54,10 @@ fun ImageView.loadPhotoFromUrl(
     errorBlock: (GlideException?) -> Unit = {},
     successBlock: (String) -> Unit = {},
 ) {
-    Glide.with(context)
-        .load(imageUrl)
-        .centerCrop()
-        .placeholder(placeHolder)
-        .error(errorPlaceError)
+    Glide.with(context).load(imageUrl).centerCrop()
+        .placeholder(placeHolder).error(errorPlaceError)
         .listener(object : RequestListener<Drawable> {
+
             override fun onLoadFailed(
                 exception: GlideException?,
                 model: Any?,
@@ -90,17 +88,30 @@ fun ImageView.loadPhotoFromUrl(
         .into(this)
 }
 
-private fun Context.saveImageToInternalStorage(bitmap: Bitmap): String {
+fun Context.saveImageToInternalStorage(bitmap: Bitmap): String {
+
     val wrapper = ContextWrapper(applicationContext)
+
     var file = wrapper.getDir("GearsRunImages", Context.MODE_PRIVATE)
+
     file = File(file,"${UUID.randomUUID()}.jpg")
-    try{
+
+    try {
+
         val stream : OutputStream = FileOutputStream(file)
+
+        // iLog("Width : " + bitmap.width)
+        // iLog("Height: " + bitmap.height)
+
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+
         stream.flush()
+
         stream.close()
-    }catch (e: IOException){
+
+    } catch (e: IOException){
         e.printStackTrace()
     }
+
     return file.absolutePath
 }

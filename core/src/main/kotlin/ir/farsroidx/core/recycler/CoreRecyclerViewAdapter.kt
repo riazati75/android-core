@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package ir.farsroidx.core.recycler
 
@@ -29,6 +29,8 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
 
     protected var itemLongClicked: (item: M) -> Unit = {}
 
+    protected var onItemChange: (isEmpty: Boolean) -> Unit = {}
+
     class CoreViewHolder<DB : ViewDataBinding>(val dataBinding: DB) :
         RecyclerView.ViewHolder(dataBinding.root)
 
@@ -53,6 +55,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         synchronized(mItems) {
             this.mItems.add(item)
             notifyItemInserted(itemCount - 1)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -62,6 +65,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             val iCount = itemCount
             this.mItems.addAll(items)
             notifyItemRangeInserted(iCount, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -71,6 +75,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             val iCount = itemCount
             this.mItems.addAll(items)
             notifyItemRangeInserted(iCount, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -80,6 +85,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             this.mItems.add(position, item)
             notifyItemInserted(position)
             notifyItemRangeChanged(position, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -89,6 +95,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             this.mItems.addAll(position, items.toList())
             notifyItemRangeInserted(position, items.size)
             notifyItemRangeChanged(position, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -98,6 +105,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             this.mItems.addAll(position, items)
             notifyItemRangeInserted(position, items.size)
             notifyItemRangeChanged(position, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -107,6 +115,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             val position = this.mItems.indexOf(item)
             this.mItems[position] = item
             notifyItemChanged(position)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -115,6 +124,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         synchronized(mItems) {
             this.mItems[position] = items
             notifyItemChanged(position)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -125,6 +135,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             this.mItems.remove(item)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -134,6 +145,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
             this.mItems.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, itemCount)
+            onItemChange(itemCount == 0)
         }
     }
 
@@ -146,6 +158,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
                 notifyItemRangeRemoved(0, lastItemCount)
                 notifyItemChanged(0, itemCount)
                 this.mItemsBackup = null
+                onItemChange(itemCount == 0)
             }
         }
     }
@@ -160,6 +173,10 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
 
     fun setOnItemLongClicked(onLongClicked: (item: M) -> Unit) {
         this.itemLongClicked = onLongClicked
+    }
+
+    fun setOnValueChange(onValueChange: (isEmpty: Boolean) -> Unit) {
+        this.onItemChange = onValueChange
     }
 
     protected abstract fun onBindViewHolder(dataBinding: VDB, item: M, position: Int)
