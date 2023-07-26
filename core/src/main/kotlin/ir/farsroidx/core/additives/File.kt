@@ -1,4 +1,4 @@
-package ir.fanap.manaman.core.additives
+package ir.farsroidx.core.additives
 
 import android.content.Context
 import android.content.Intent
