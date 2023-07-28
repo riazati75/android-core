@@ -19,10 +19,10 @@ class ExceptionHandler(
         const val EXTRA_THROWABLE = "extraThrowable"
         const val EXTRA_DEVELOPER = "extraDeveloper"
 
-        fun install(applicationContext: Application, developerEmail: String = "") {
+        fun install(context: Application, developerEmail: String = "") {
             if (!Debug.waitingForDebugger() && !Debug.isDebuggerConnected()) {
                 Thread.setDefaultUncaughtExceptionHandler(
-                    ExceptionHandler(applicationContext, developerEmail)
+                    ExceptionHandler(context, developerEmail)
                 )
             }
         }
