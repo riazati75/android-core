@@ -21,3 +21,11 @@ fun getPersianDateTime(
         }
     )
 }
+
+fun getPersianDateObject(
+    raiseDay: Int? = null
+): PersianDate = PersianDate().apply {
+    if (raiseDay != null) {
+        addDay(raiseDay)
+    }
+}
