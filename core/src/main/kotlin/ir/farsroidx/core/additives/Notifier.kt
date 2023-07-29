@@ -13,17 +13,17 @@ import ir.farsroidx.core.R
 
 // TODO: Notifier ===================================================================== Notifier ===
 
-fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+fun Context.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
-fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+fun Fragment.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(requireContext(), message, duration).show()
 }
 
-fun Context.longToast(message: String) = toast(message, Toast.LENGTH_LONG)
+fun Context.longToast(message: CharSequence) = toast(message, Toast.LENGTH_LONG)
 
-fun Fragment.longToast(message: String) = toast(message, Toast.LENGTH_LONG)
+fun Fragment.longToast(message: CharSequence) = toast(message, Toast.LENGTH_LONG)
 
 // TODO: Snackbar ===================================================================== Snackbar ===
 

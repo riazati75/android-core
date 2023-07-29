@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "UNUSED_PARAMETER")
 
 package ir.farsroidx.core
 
@@ -35,8 +35,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         onBeforeInitializing(savedInstanceState)
 
         window.decorView.layoutDirection =
-            if (isRtlDirection) View.LAYOUT_DIRECTION_RTL
-            else View.LAYOUT_DIRECTION_LTR
+            if (isRtlDirection) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
 
         super.onCreate(savedInstanceState)
 

@@ -1,8 +1,9 @@
+@file:Suppress("unused")
+
 package ir.farsroidx.core.recycler
 
 import androidx.databinding.ViewDataBinding
 
-@Suppress("unused")
 abstract class CoreSelectableRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     : CoreRecyclerViewAdapter<VDB, M>()
 {
