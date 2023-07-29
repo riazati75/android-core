@@ -10,7 +10,7 @@
     <application>
 
         <activity
-            android:name=".exception.ExceptionActivity"
+            android:name=".exception.CoreExceptionActivity"
             android:excludeFromRecents="true"
             android:exported="true"
             android:process="@string/app_exception_process"

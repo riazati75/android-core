@@ -55,17 +55,22 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
+    // Navigation
+//    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+//    implementation("androidx.navigation:navigation-common-ktx:2.6.0")
+//    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+
     // Other
     api("com.airbnb.android:lottie:6.1.0")
     api("com.github.bumptech.glide:glide:4.15.1")
-    api("com.github.samanzamani:PersianDate:1.6.1")
-    api("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    api("com.github.abdularis:CircularImageView:1.5")
-    api("com.github.aliab:Persian-Date-Picker-Dialog:1.8.0")
 
     // Riazati75
+    api("com.github.riazati75:PersianDate:1.0.0")
+    api("com.github.riazati75:AndroidChart:1.0.0")
     api("com.github.riazati75:ExpansionPanel:1.0.0")
     api("com.github.riazati75:PleaseAnimation:1.0.0")
+    api("com.github.riazati75:CircularImageView:1.0.0")
+    api("com.github.riazati75:PersianDatePicker:1.0.0")
 
     // =-------------------------------------------------------------------------------------------=
     // =--= Test Dependencies =---------------------------------------------= Test Dependencies =--=
@@ -85,7 +90,7 @@ publishing {
 
             groupId    = "ir.farsroidx"
             artifactId = "android-core"
-            version    = "1.1.2"
+            version    = "1.2.0"
 
             afterEvaluate {
                 from(

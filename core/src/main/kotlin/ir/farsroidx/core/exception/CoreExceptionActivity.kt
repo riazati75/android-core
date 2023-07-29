@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
+class CoreExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
 
     private var developerEmail: String = ""
     private val emailType     : String = "text/html"
@@ -45,7 +45,7 @@ class ExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
 
         binding.btnSendMail.setOnClickListener(::onSendPressed)
 
-        developerEmail = intent.getStringExtra(ExceptionHandler.EXTRA_DEVELOPER) ?: ""
+        developerEmail = intent.getStringExtra(CoreExceptionHandler.EXTRA_DEVELOPER) ?: ""
 
         if (developerEmail.isEmpty()) {
             binding.btnSendMail.gone()
@@ -53,7 +53,7 @@ class ExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
             binding.btnSendMail.visible()
         }
 
-        intent.getParcelableExtra<ApplicationErrorReport>(ExceptionHandler.EXTRA_THROWABLE)
+        intent.getParcelableExtra<ApplicationErrorReport>(CoreExceptionHandler.EXTRA_THROWABLE)
             ?.let { errorReport ->
                 try {
                     if (developerEmail.isNotEmpty()) {
@@ -306,7 +306,7 @@ class ExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
         ApplicationErrorReport().apply {
             installerPackageName = packageManager.getInstallerPackageName(packageName)
             crashInfo            = ApplicationErrorReport.CrashInfo(throwable)
-            packageName          = this@ExceptionActivity.packageName
+            packageName          = this@CoreExceptionActivity.packageName
             processName          = currentProcessName
             type                 = ApplicationErrorReport.TYPE_CRASH
             time                 = System.currentTimeMillis()

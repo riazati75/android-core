@@ -37,8 +37,28 @@
 
     </declare-styleable>
 
-    <declare-styleable name="RotateLayout">
+    <declare-styleable name="RotatableLayout">
         <attr name="frsx_Angle" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="SquareFrameLayout">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareLinearLayout">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareRelativeLayout">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareConstraintLayout">
+        <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="SquareCoordinatorLayout">
+        <attr name="frsx_SquaredBy" />
     </declare-styleable>
 
     <declare-styleable name="SquareCardView">
@@ -51,6 +71,14 @@
 
     <declare-styleable name="SquareLottieView">
         <attr name="frsx_SquaredBy" />
+    </declare-styleable>
+
+    <declare-styleable name="FlashingImageView">
+        <attr name="frsx_DefaultColor" format="color"/>
+        <attr name="frsx_FirstColor" format="color"/>
+        <attr name="frsx_SecondColor" format="color"/>
+        <attr name="frsx_TimeChangeColor" format="integer"/>
+        <attr name="frsx_StartAutoChange" format="boolean"/>
     </declare-styleable>
 
 </resources>

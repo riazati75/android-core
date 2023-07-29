@@ -18,7 +18,7 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 
-class RotateLayout : ViewGroup {
+class RotatableLayout : ViewGroup {
 
     private var angle           = 0
     private val rotateMatrix    = Matrix()
@@ -54,8 +54,8 @@ class RotateLayout : ViewGroup {
         context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int
     ) {
 
-        context.obtainStyledAttributes(attrs, R.styleable.RotateLayout).apply {
-            angle = getInt(R.styleable.RotateLayout_frsx_Angle, angle)
+        context.obtainStyledAttributes(attrs, R.styleable.RotatableLayout).apply {
+            angle = getInt(R.styleable.RotatableLayout_frsx_Angle, angle)
             recycle()
         }
 

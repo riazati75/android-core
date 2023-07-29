@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 
 @Suppress("unused")
-class TimerRunnable(private val initValue: Int, val run: (String, Boolean) -> Unit) : Runnable {
+class CoreTimerRunnable(private val initValue: Int, val run: (String, Boolean) -> Unit) : Runnable {
 
     private val handler: Handler = Handler(Looper.getMainLooper())
 

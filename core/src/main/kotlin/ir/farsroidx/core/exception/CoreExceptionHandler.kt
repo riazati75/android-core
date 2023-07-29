@@ -10,7 +10,7 @@ import android.content.Intent
 import android.os.Debug
 import kotlin.system.exitProcess
 
-class ExceptionHandler(
+class CoreExceptionHandler(
     private val applicationBaseContext: Context, private val developerEmail: String
 ) : Thread.UncaughtExceptionHandler {
 
@@ -22,7 +22,7 @@ class ExceptionHandler(
         fun install(context: Application, developerEmail: String = "") {
             if (!Debug.waitingForDebugger() && !Debug.isDebuggerConnected()) {
                 Thread.setDefaultUncaughtExceptionHandler(
-                    ExceptionHandler(context, developerEmail)
+                    CoreExceptionHandler(context, developerEmail)
                 )
             }
         }
@@ -35,7 +35,7 @@ class ExceptionHandler(
         try {
             applicationBaseContext.startActivity(
                 Intent(
-                    applicationBaseContext.applicationContext, ExceptionActivity::class.java
+                    applicationBaseContext.applicationContext, CoreExceptionActivity::class.java
                 ).setFlags(
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 ).putExtra(
