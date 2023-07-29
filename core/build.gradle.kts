@@ -63,9 +63,10 @@ dependencies {
     // Other
     api("com.airbnb.android:lottie:6.1.0")
     api("com.github.bumptech.glide:glide:4.15.1")
+    api("com.github.samanzamani:PersianDate:1.6.1")
 
     // Riazati75
-    api("com.github.riazati75:PersianDate:1.0.0")
+//    api("com.github.riazati75:PersianDate:1.0.0")
     api("com.github.riazati75:AndroidChart:1.0.0")
     api("com.github.riazati75:ExpansionPanel:1.0.0")
     api("com.github.riazati75:PleaseAnimation:1.0.0")
