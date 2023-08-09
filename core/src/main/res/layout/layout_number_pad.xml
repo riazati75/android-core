@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr">
+
+        <LinearLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad1" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad2" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad4" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad5" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad6" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad7" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad8" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad9" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPadDone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_ButtonIcon="@drawable/icon_done"
+                    app:frsx_Number="image" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPad0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_Number="numPad0" />
+
+                <ir.farsroidx.core.view.NumberButton
+                    android:id="@+id/numPadBackspace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    app:frsx_ButtonIcon="@drawable/icon_backspace"
+                    app:frsx_Number="image" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:background="?attr/colorPrimary"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:focusable="true" />
+
+    </FrameLayout>
+
+</layout>

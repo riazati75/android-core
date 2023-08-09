@@ -4,9 +4,9 @@
         <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
         <item name="statusBarBackground">?attr/colorPrimaryDark</item>
-        <item name="android:fontFamily">@font/iran_sans_regular</item>
+        <item name="android:fontFamily">@font/vazirmatn_regular</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
-        <item name="fontFamily">@font/iran_sans_regular</item>
+        <item name="fontFamily">@font/vazirmatn_regular</item>
         <item name="colorPrimary">@color/blue_grey_800</item>
         <item name="colorAccent">@color/blue_500</item>
     </style>

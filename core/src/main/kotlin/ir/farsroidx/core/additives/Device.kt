@@ -3,6 +3,7 @@
 package ir.farsroidx.core.additives
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
@@ -283,3 +285,9 @@ fun Context.vibrateDevice(milliseconds: Long = 20) {
         vibrator.vibrate(milliseconds)
     }
 }
+
+@SuppressLint("HardwareIds")
+@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+fun Context.getDeviceId(): String = Settings.Secure.getString(
+    contentResolver, Settings.Secure.ANDROID_ID
+)

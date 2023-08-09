@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="frsx_ButtonBackgroundColor" format="color" />
+    <attr name="frsx_ButtonNumberColor" format="color" />
+    <attr name="frsx_ButtonRadius" format="dimension" />
+    <attr name="frsx_ButtonRippleColor" format="color" />
+    <attr name="frsx_ButtonRippleMaskDrawable" format="reference" />
+    <attr name="frsx_ButtonTextColor" format="color" />
+    <attr name="frsx_ShowButtonText" format="boolean" />
+
     <attr name="frsx_SquaredBy" format="enum">
-        <enum name="width"  value="14" />
+        <enum name="width" value="14" />
         <enum name="height" value="15" />
     </attr>
 
@@ -38,7 +46,7 @@
     </declare-styleable>
 
     <declare-styleable name="RotatableLayout">
-        <attr name="frsx_Angle" format="integer"/>
+        <attr name="frsx_Angle" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="SquareFrameLayout">
@@ -74,11 +82,102 @@
     </declare-styleable>
 
     <declare-styleable name="FlashingImageView">
-        <attr name="frsx_DefaultColor" format="color"/>
-        <attr name="frsx_FirstColor" format="color"/>
-        <attr name="frsx_SecondColor" format="color"/>
-        <attr name="frsx_TimeChangeColor" format="integer"/>
-        <attr name="frsx_StartAutoChange" format="boolean"/>
+        <attr name="frsx_DefaultColor" format="color" />
+        <attr name="frsx_FirstColor" format="color" />
+        <attr name="frsx_SecondColor" format="color" />
+        <attr name="frsx_TimeChangeColor" format="integer" />
+        <attr name="frsx_StartAutoChange" format="boolean" />
+    </declare-styleable>
+
+<!--    <declare-styleable name="MaskedEditText">-->
+<!--        <attr name="frsx_Mask" format="string" />-->
+<!--        <attr name="frsx_AllowedChars" format="string" />-->
+<!--        <attr name="frsx_EnableImeAction" format="boolean" />-->
+<!--        <attr name="frsx_DeniedChars" format="string" />-->
+<!--        <attr name="frsx_CharRepresentation" format="string" />-->
+<!--        <attr name="frsx_KeepHint" format="boolean" />-->
+<!--    </declare-styleable>-->
+
+    <declare-styleable name="ChatEditText">
+
+        <attr name="frsx_BackgroundColor" format="color" />
+
+        <attr name="frsx_Text" format="string" />
+        <attr name="frsx_TextColor" format="color" />
+        <attr name="frsx_TextSizeSp" format="float" />
+
+        <attr name="frsx_Hint" format="string" />
+        <attr name="frsx_HintColor" format="color" />
+
+        <attr name="frsx_BtnSendColor" format="color" />
+        <attr name="frsx_BtnAttachColor" format="color" />
+        <attr name="frsx_BtnRecordColor" format="color" />
+        <attr name="frsx_BtnEmojiColor" format="color" />
+
+        <attr name="frsx_ShowRecordButton" format="boolean" />
+        <attr name="frsx_ShowEmojiButton" format="boolean" />
+
+        <attr name="frsx_AnimateOnClicked" format="boolean" />
+
+        <attr name="frsx_VibrateClickedButton" format="boolean" />
+        <attr name="frsx_VibrateDuration" format="integer" />
+
+    </declare-styleable>
+
+    <declare-styleable name="NumberButton">
+
+        <attr name="frsx_Number" format="enum">
+            <enum name="image" value="-2" />
+            <enum name="numPad0" value="0" />
+            <enum name="numPad1" value="1" />
+            <enum name="numPad2" value="2" />
+            <enum name="numPad3" value="3" />
+            <enum name="numPad4" value="4" />
+            <enum name="numPad5" value="5" />
+            <enum name="numPad6" value="6" />
+            <enum name="numPad7" value="7" />
+            <enum name="numPad8" value="8" />
+            <enum name="numPad9" value="9" />
+        </attr>
+
+        <attr name="frsx_ButtonBackgroundColor" />
+        <attr name="frsx_ButtonIcon" format="reference" />
+        <attr name="frsx_ButtonIconTint" format="color" />
+        <attr name="frsx_ButtonNumberColor" />
+        <attr name="frsx_ButtonRadius" />
+        <attr name="frsx_ButtonRippleColor" />
+        <attr name="frsx_ButtonRippleMaskDrawable" />
+        <attr name="frsx_ButtonTextColor" />
+        <attr name="frsx_ShowButtonText" />
+
+    </declare-styleable>
+
+    <declare-styleable name="NumberPad">
+
+        <attr name="frsx_ButtonBackgroundColor" />
+
+        <attr name="frsx_ButtonBackspaceBackgroundColor" format="color" />
+        <attr name="frsx_ButtonBackspaceIcon" format="reference" />
+        <attr name="frsx_ButtonBackspaceIconTint" format="color" />
+        <attr name="frsx_ButtonBackspaceRadius" format="dimension" />
+        <attr name="frsx_ButtonBackspaceRippleColor" format="color" />
+        <attr name="frsx_ButtonBackspaceRippleMaskDrawable" format="reference" />
+
+        <attr name="frsx_ButtonDoneBackgroundColor" format="color" />
+        <attr name="frsx_ButtonDoneIcon" format="reference" />
+        <attr name="frsx_ButtonDoneIconTint" format="color" />
+        <attr name="frsx_ButtonDoneRadius" format="dimension" />
+        <attr name="frsx_ButtonDoneRippleColor" format="color" />
+        <attr name="frsx_ButtonDoneRippleMaskDrawable" format="reference" />
+
+        <attr name="frsx_ButtonNumberColor" />
+        <attr name="frsx_ButtonRadius" />
+        <attr name="frsx_ButtonRippleColor" />
+        <attr name="frsx_ButtonRippleMaskDrawable" />
+        <attr name="frsx_ButtonTextColor" />
+        <attr name="frsx_ShowButtonText" />
+        <attr name="frsx_ShowDoneButton" format="boolean" />
+
     </declare-styleable>
 
 </resources>

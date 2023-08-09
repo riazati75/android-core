@@ -9,4 +9,8 @@
 
     <string name="email_app_not_found">An email program was not found on your device</string>
 
+    <string name="content_description">Content Description</string>
+
+    <string name="type_here">type here…</string>
+
 </resources>

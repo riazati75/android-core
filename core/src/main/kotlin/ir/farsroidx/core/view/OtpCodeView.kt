@@ -1,3 +1,5 @@
+@file:Suppress("KotlinRedundantDiagnosticSuppress", "unused")
+
 package ir.farsroidx.core.view
 
 import android.content.Context
@@ -92,7 +94,6 @@ class OtpCodeView : LinearLayout, View.OnKeyListener {
         toggleKeyboard()
     }
 
-    @Suppress("DEPRECATION")
     private fun toggleKeyboard() {
 //        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)

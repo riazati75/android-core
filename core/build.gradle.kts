@@ -9,30 +9,39 @@ plugins {
 }
 
 android {
+
     namespace  = "ir.farsroidx.core"
     compileSdk = 33
+
     defaultConfig {
         minSdk                    = 21
         multiDexEnabled           = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
+
     buildTypes {
+
         release {
+
             isMinifyEnabled = false
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         dataBinding = true
     }
@@ -44,7 +53,9 @@ dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.6.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
@@ -91,7 +102,7 @@ publishing {
 
             groupId    = "ir.farsroidx"
             artifactId = "android-core"
-            version    = "1.2.2"
+            version    = "1.3.0"
 
             afterEvaluate {
                 from(
