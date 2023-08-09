@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import ir.farsroidx.core.R;
@@ -118,6 +119,10 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
     public void setText(CharSequence text, BufferType type) {
 		if (text == null || text.equals("")) return;
         super.setText(text, type);
+    }
+
+    public void setTextString(@NonNull CharSequence text) {
+        super.setText(text, BufferType.EDITABLE);
     }
 
     @Override
