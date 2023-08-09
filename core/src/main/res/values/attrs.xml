@@ -89,14 +89,14 @@
         <attr name="frsx_StartAutoChange" format="boolean" />
     </declare-styleable>
 
-<!--    <declare-styleable name="MaskedEditText">-->
-<!--        <attr name="frsx_Mask" format="string" />-->
-<!--        <attr name="frsx_AllowedChars" format="string" />-->
-<!--        <attr name="frsx_EnableImeAction" format="boolean" />-->
-<!--        <attr name="frsx_DeniedChars" format="string" />-->
-<!--        <attr name="frsx_CharRepresentation" format="string" />-->
-<!--        <attr name="frsx_KeepHint" format="boolean" />-->
-<!--    </declare-styleable>-->
+    <declare-styleable name="MaskedEditText">
+        <attr name="frsx_Mask" format="string" />
+        <attr name="frsx_AllowedChars" format="string" />
+        <attr name="frsx_EnableImeAction" format="boolean" />
+        <attr name="frsx_DeniedChars" format="string" />
+        <attr name="frsx_CharRepresentation" format="string" />
+        <attr name="frsx_KeepHint" format="boolean" />
+    </declare-styleable>
 
     <declare-styleable name="ChatEditText">
 
