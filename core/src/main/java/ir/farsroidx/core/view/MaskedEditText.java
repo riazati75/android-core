@@ -2,6 +2,7 @@ package ir.farsroidx.core.view;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -113,6 +114,7 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
     }
 
     @Override
+    @SuppressLint("SuspiciousIndentation")
     public void setText(CharSequence text, BufferType type) {
 		if (text == null || text.equals("")) return;
         super.setText(text, type);
