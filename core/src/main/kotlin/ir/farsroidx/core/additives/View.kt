@@ -35,6 +35,14 @@ fun View.visibleOrGone(isVisible: Boolean) {
     }
 }
 
+fun View.visibleOrInvisible(isVisible: Boolean) {
+    if (isVisible) {
+        this.visibility = View.VISIBLE
+    } else {
+        this.visibility = View.INVISIBLE
+    }
+}
+
 fun View.enable() {
     if (!this.isEnabled) {
         this.isEnabled = true
