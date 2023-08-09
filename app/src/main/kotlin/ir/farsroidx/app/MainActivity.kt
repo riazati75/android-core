@@ -1,12 +1,15 @@
 package ir.farsroidx.app
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import ir.farsroidx.app.databinding.ActivityMainBinding
+import ir.farsroidx.core.CoreActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : CoreActivity<ActivityMainBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onInitialized() {
+
+        binding.apply {
+
+
+        }
     }
 }
