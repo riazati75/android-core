@@ -115,8 +115,8 @@
     </style>
 
     <style name="Style.Farsroidx.FontFamily" parent="">
-        <item name="android:fontFamily">@font/iran_sans_regular</item>
-        <item name="fontFamily">@font/iran_sans_regular</item>
+        <item name="android:fontFamily">@font/vazirmatn_regular</item>
+        <item name="fontFamily">@font/vazirmatn_regular</item>
         <item name="android:textStyle">normal</item>
     </style>
 

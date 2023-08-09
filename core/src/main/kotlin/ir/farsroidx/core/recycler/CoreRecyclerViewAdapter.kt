@@ -23,7 +23,11 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
 
     private lateinit var layoutInflater: LayoutInflater
 
-    protected var mOnActionClicked: (item: M) -> Unit = {}
+    protected var action1Clicked: (item: M) -> Unit = {}
+    protected var action2Clicked: (item: M) -> Unit = {}
+    protected var action3Clicked: (item: M) -> Unit = {}
+    protected var action4Clicked: (item: M) -> Unit = {}
+    protected var action5Clicked: (item: M) -> Unit = {}
 
     protected var itemClicked: (item: M) -> Unit = {}
 
@@ -163,8 +167,24 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         }
     }
 
-    fun setOnDeleteActionClicked(onClicked: (item: M) -> Unit) {
-        this.mOnActionClicked = onClicked
+    fun setOnAction1Clicked(onClicked: (item: M) -> Unit) {
+        this.action1Clicked = onClicked
+    }
+
+    fun setOnAction2Clicked(onClicked: (item: M) -> Unit) {
+        this.action2Clicked = onClicked
+    }
+
+    fun setOnAction3Clicked(onClicked: (item: M) -> Unit) {
+        this.action3Clicked = onClicked
+    }
+
+    fun setOnAction4Clicked(onClicked: (item: M) -> Unit) {
+        this.action4Clicked = onClicked
+    }
+
+    fun setOnAction5Clicked(onClicked: (item: M) -> Unit) {
+        this.action5Clicked = onClicked
     }
 
     fun setOnItemClicked(onClicked: (item: M) -> Unit) {

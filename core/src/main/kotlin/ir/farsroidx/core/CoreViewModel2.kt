@@ -1,37 +1,29 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "DEPRECATION")
 
 package ir.farsroidx.core
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import androidx.annotation.CallSuper
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
-abstract class CoreViewModel2 <VS: Any> : ViewModel() {
+abstract class CoreViewModel2 <VS: Any> : CoreViewModel() {
 
     protected var onViewStateChange: (VS) -> Unit = {}
+
+    private val _liveViewStateChange = MutableLiveData<VS>()
+    val liveViewStateChange: LiveData<VS> = _liveViewStateChange
 
     fun setOnViewStateChanged(onChange: (VS) -> Unit) {
         onViewStateChange = onChange
     }
 
-    suspend fun doInIOThread(block: () -> Unit) {
-        withContext(Dispatchers.IO) {
-            block()
-        }
+    @CallSuper
+    protected open fun setViewState(state: VS) {
+        _liveViewStateChange.value = state
     }
 
-    suspend fun doInMainThread(block: () -> Unit) {
-        withContext(Dispatchers.Main) {
-            block()
-        }
-    }
-
-    fun viewModelScope(
-        block: suspend CoroutineScope.() -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        block()
+    @CallSuper
+    protected open fun postViewState(state: VS) {
+        _liveViewStateChange.postValue(state)
     }
 }

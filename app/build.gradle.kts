@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     // jetbrains
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -32,6 +33,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    buildFeatures {
+        dataBinding = true
     }
 }
 
