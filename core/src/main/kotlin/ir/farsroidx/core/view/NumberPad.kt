@@ -14,7 +14,7 @@ import ir.farsroidx.core.R
 import ir.farsroidx.core.additives.gone
 import ir.farsroidx.core.additives.px
 import ir.farsroidx.core.additives.visible
-import ir.farsroidx.core.additives.visibleOrGone
+import ir.farsroidx.core.additives.visibleOrInvisible
 import ir.farsroidx.core.databinding.LayoutNumberPadBinding
 
 class NumberPad : ConstraintLayout {
@@ -313,7 +313,7 @@ class NumberPad : ConstraintLayout {
     }
 
     fun setShowDoneButton(isShown: Boolean) {
-        dataBinding.numPadDone.visibleOrGone(isShown)
+        dataBinding.numPadDone.visibleOrInvisible(isShown)
     }
 
     private fun onClicked(numPad: NumPad) {
