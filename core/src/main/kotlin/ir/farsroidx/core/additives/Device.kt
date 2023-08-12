@@ -12,9 +12,11 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 
 // TODO: Device ========================================================================= Device ===
 
@@ -285,6 +287,14 @@ fun Context.vibrateDevice(milliseconds: Long = 20) {
         vibrator.vibrate(milliseconds)
     }
 }
+
+@SuppressLint("HardwareIds")
+@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+fun View.getDeviceId(): String = context.getDeviceId()
+
+@SuppressLint("HardwareIds")
+@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+fun Fragment.getDeviceId(): String = requireContext().getDeviceId()
 
 @SuppressLint("HardwareIds")
 @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
