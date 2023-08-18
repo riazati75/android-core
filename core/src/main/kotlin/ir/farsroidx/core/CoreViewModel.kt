@@ -9,16 +9,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Deprecated(
-    message = "Please replace it and use of CoreViewModel2.",
-    replaceWith = ReplaceWith(
-        expression = "CoreViewModel2",
-        imports = [
-            "ir.farsroidx.core.CoreViewModel2"
-        ]
-    ),
-    level = DeprecationLevel.WARNING
-)
+//@Deprecated(
+//    message = "Please replace it and use of CoreViewStateViewModel.",
+//    replaceWith = ReplaceWith(
+//        expression = "CoreViewStateViewModel",
+//        imports = [
+//            "ir.farsroidx.core.CoreViewStateViewModel"
+//        ]
+//    ),
+//    level = DeprecationLevel.WARNING
+//)
 abstract class CoreViewModel : ViewModel() {
 
     suspend fun doInIOThread(block: () -> Unit) {
