@@ -1,12 +1,11 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused", "DEPRECATION")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package ir.farsroidx.core
 
-import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-abstract class CoreViewModel2 <VS: Any> : CoreViewModel() {
+abstract class CoreViewStateViewModel <VS: Any> : CoreViewModel() {
 
     protected var onViewStateChange: (VS) -> Unit = {}
 
@@ -17,13 +16,11 @@ abstract class CoreViewModel2 <VS: Any> : CoreViewModel() {
         onViewStateChange = onChange
     }
 
-    @CallSuper
-    protected open fun setViewState(state: VS) {
+    protected fun setViewState(state: VS) {
         _liveViewStateChange.value = state
     }
 
-    @CallSuper
-    protected open fun postViewState(state: VS) {
+    protected fun postViewState(state: VS) {
         _liveViewStateChange.postValue(state)
     }
 }
