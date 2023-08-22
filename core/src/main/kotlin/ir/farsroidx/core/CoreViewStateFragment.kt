@@ -9,7 +9,7 @@ abstract class CoreViewStateFragment <VDB: ViewBinding, VS: Any> :
 {
 
     fun initViewState(viewModel: CoreViewStateViewModel<VS>) {
-        viewModel.setOnViewStateChanged(::viewStateHandler)
+        viewModel.setOnViewStateChanged(lifecycleOwner = this, ::viewStateHandler)
     }
 
     override fun viewStateHandler(viewState: VS) {
