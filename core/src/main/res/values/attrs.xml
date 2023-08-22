@@ -155,6 +155,9 @@
     <declare-styleable name="NumberPad">
 
         <attr name="frsx_ButtonBackgroundColor" />
+        <attr name="frsx_OverlayOnDisableColor" format="color" />
+        <attr name="frsx_OverlayOnDisableAlpha" format="float" />
+        <attr name="frsx_IsEnabled" format="boolean" />
 
         <attr name="frsx_ButtonBackspaceBackgroundColor" format="color" />
         <attr name="frsx_ButtonBackspaceIcon" format="reference" />

@@ -11,9 +11,8 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import ir.farsroidx.core.R
-import ir.farsroidx.core.additives.gone
 import ir.farsroidx.core.additives.px
-import ir.farsroidx.core.additives.visible
+import ir.farsroidx.core.additives.visibleOrGone
 import ir.farsroidx.core.additives.visibleOrInvisible
 import ir.farsroidx.core.databinding.LayoutNumberPadBinding
 
@@ -83,8 +82,6 @@ class NumberPad : ConstraintLayout {
 
         }
 
-        setEnableNumPad(true)
-
         attrs?.let {
             context.obtainStyledAttributes(
                 it, R.styleable.NumberPad, defStyleAttr, defStyleRes
@@ -142,6 +139,27 @@ class NumberPad : ConstraintLayout {
                         Color.WHITE
                     ).apply {
                         numPadBackspace.setIconTint(this)
+                    }
+
+                    getColor(
+                        R.styleable.NumberPad_frsx_OverlayOnDisableColor,
+                        Color.WHITE
+                    ).apply {
+                        overlay.setBackgroundColor(this)
+                    }
+
+                    getFloat(
+                        R.styleable.NumberPad_frsx_OverlayOnDisableAlpha,
+                        0.5F
+                    ).apply {
+                        overlay.alpha = this
+                    }
+
+                    getBoolean(
+                        R.styleable.NumberPad_frsx_IsEnabled,
+                        true
+                    ).apply {
+                        setEnableNumPad(this)
                     }
 
                     // TODO: DEFAULT ===========================================================
@@ -263,8 +281,7 @@ class NumberPad : ConstraintLayout {
     }
 
     fun setEnableNumPad(isEnable: Boolean) {
-        if (isEnable) dataBinding.overlay.gone()
-        else dataBinding.overlay.visible()
+        dataBinding.overlay.visibleOrGone(!isEnable)
     }
 
     fun setShowButtonText(isShown: Boolean) {
@@ -327,7 +344,6 @@ class NumberPad : ConstraintLayout {
 
     interface OnNumPadClickListener {
         fun onClick(numPad: NumPad)
-
         fun onLongClick(numPad: NumPad)
     }
 
