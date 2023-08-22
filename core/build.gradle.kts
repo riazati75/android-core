@@ -102,7 +102,7 @@ publishing {
 
             groupId    = "ir.farsroidx"
             artifactId = "android-core"
-            version    = "1.3.8"
+            version    = "1.3.9"
 
             afterEvaluate {
                 from(
