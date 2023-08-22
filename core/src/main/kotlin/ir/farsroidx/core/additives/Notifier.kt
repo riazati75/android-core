@@ -154,9 +154,6 @@ private fun FragmentActivity.initializeSnackbar(
 
     action?.let {
         setAction(it, clickListener)
-        if (clickListener != null) {
-            setDuration(Snackbar.LENGTH_INDEFINITE)
-        }
     } ?: run {
         if (duration == Snackbar.LENGTH_INDEFINITE) {
             setDuration(Snackbar.LENGTH_LONG)
@@ -185,7 +182,7 @@ private fun FragmentActivity.initializeSnackbar(
             setActionTextColor(getColorResource(R.color.white))
         }
         5 -> {
-            setBackgroundTint(getColorResource(R.color.green_500))
+            setBackgroundTint(Color.parseColor("#198754"))
             setTextColor(getColorResource(R.color.white))
             setActionTextColor(getColorResource(R.color.light_green_900))
         }
