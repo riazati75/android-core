@@ -11,7 +11,7 @@ plugins {
 android {
 
     namespace  = "ir.farsroidx.core"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk                    = 21
@@ -102,7 +102,7 @@ publishing {
 
             groupId    = "ir.farsroidx"
             artifactId = "android-core"
-            version    = "1.3.9"
+            version    = "1.3.10"
 
             afterEvaluate {
                 from(
