@@ -27,7 +27,7 @@ abstract class CoreViewStateViewModel <VS: Any> : CoreViewModel() {
                 if (it.lifecycle.currentState != Lifecycle.State.DESTROYED) {
                     _onViewStateChange( viewState )
                 } else {
-                // TODO: Nothing to change
+                    // TODO: Nothing to change
                 }
             }
         }

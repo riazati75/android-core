@@ -290,14 +290,14 @@ fun Context.vibrateDevice(milliseconds: Long = 20) {
 
 @SuppressLint("HardwareIds")
 @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-fun View.getDeviceId(): String = context.getDeviceId()
+fun View.getUniqueDeviceId(): String = context.getUniqueDeviceId()
 
 @SuppressLint("HardwareIds")
 @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-fun Fragment.getDeviceId(): String = requireContext().getDeviceId()
+fun Fragment.getUniqueDeviceId(): String = requireContext().getUniqueDeviceId()
 
 @SuppressLint("HardwareIds")
 @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-fun Context.getDeviceId(): String = Settings.Secure.getString(
+fun Context.getUniqueDeviceId(): String = Settings.Secure.getString(
     contentResolver, Settings.Secure.ANDROID_ID
 )
