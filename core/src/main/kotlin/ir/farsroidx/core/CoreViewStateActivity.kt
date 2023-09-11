@@ -2,17 +2,17 @@
 
 package ir.farsroidx.core
 
+import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 
 abstract class CoreViewStateActivity <VDB: ViewDataBinding, VS: Any> :
     CoreActivity<VDB>(), CoreViewState<VS>
 {
 
-    fun initViewState(viewModel: CoreViewStateViewModel<VS>) {
-        viewModel.setOnViewStateChanged(lifecycleOwner = this, ::viewStateHandler)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun viewStateHandler(viewState: VS) {
-        // Nothing to change
+        // Setup viewState
+        getViewModel().setOnViewStateChanged(lifecycleOwner = this, ::viewStateHandler)
     }
 }

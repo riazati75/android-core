@@ -69,7 +69,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         onBackStackPressed()
     }
 
-    fun launchActivity(
+    fun startActivity(
         clazz: Class<*>,
         extras: Map<String, Any>? = null,
         intent: (Intent) -> Unit = {},
@@ -109,7 +109,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         runTransitionAnimation()
     }
 
-    fun launchAppSettingsPage() {
+    fun startAppSettings() {
         startActivity(
             Intent(
                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -139,5 +139,9 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
     protected fun getDrawableRes(@DrawableRes resId: Int): Drawable? {
         return ContextCompat.getDrawable(this, resId)
+    }
+
+    protected fun binding(block: VDB.() -> Unit) = binding.apply {
+        block.invoke(this)
     }
 }
