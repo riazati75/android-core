@@ -18,14 +18,15 @@ import ir.farsroidx.core.additives.autoViewDataBinding
 
 abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
 
-    protected lateinit var binding : VDB
-        private set
+    private lateinit var _binding : VDB
+
+    protected val binding : VDB by lazy { _binding }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        if (!this::binding.isInitialized) {
-            binding = autoViewDataBinding()
+        if (!this::_binding.isInitialized) {
+            _binding = autoViewDataBinding()
             onInitialized( savedInstanceState )
         }
         onReInitializing( savedInstanceState )
@@ -56,6 +57,10 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
         requireActivity().window.setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
         )
+    }
+
+    protected fun binding(block: VDB.() -> Unit) = binding.apply {
+        block.invoke(this)
     }
 
 //    protected fun navigateTo(deepLink: Uri) {

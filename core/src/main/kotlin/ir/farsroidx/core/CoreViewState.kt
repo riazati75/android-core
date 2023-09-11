@@ -4,4 +4,6 @@ internal interface CoreViewState <VS: Any> {
 
     fun viewStateHandler(viewState: VS)
 
+    fun getViewModel(): CoreViewStateViewModel<VS>
+
 }
