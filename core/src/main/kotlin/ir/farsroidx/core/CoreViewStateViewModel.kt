@@ -16,7 +16,7 @@ abstract class CoreViewStateViewModel <VS: Any> : CoreViewModel() {
     private val _liveViewStateChange = MutableLiveData<VS>()
     val liveViewStateChange: LiveData<VS> = _liveViewStateChange
 
-    fun setOnViewStateChanged(lifecycleOwner: LifecycleOwner, onChange: (VS) -> Unit) {
+    internal fun setOnViewStateChanged(lifecycleOwner: LifecycleOwner, onChange: (VS) -> Unit) {
         _lifecycleOwner    = lifecycleOwner
         _onViewStateChange = onChange
     }
