@@ -13,6 +13,6 @@ abstract class CoreViewStateActivity <VDB: ViewDataBinding, VS: Any> :
         super.onCreate(savedInstanceState)
 
         // Setup viewState
-        getViewModel().setOnViewStateChanged(lifecycleOwner = this, ::viewStateHandler)
+        getCoreViewStateViewModel().setOnViewStateChanged(lifecycleOwner = this, ::viewStateHandler)
     }
 }
