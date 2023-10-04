@@ -259,27 +259,36 @@ class ChatEditText : RelativeLayout {
             else {
 
                 view.startAnimation(animationScaleDown)
+
                 animationScaleDown.setAnimationListener(
                     object : AbstractAnimationListener() {
                         override fun onAnimationEnd(animation: Animation) {
+
                             if (view.id == dataBinding.btnEmoji.id) {
+
                                 if (isEmojiMode) {
+
                                     dataBinding.btnEmoji.setImageResource(R.drawable.icon_mood)
-                                } else {
-                                    dataBinding.btnEmoji.setImageResource(R.drawable.icon_keyboard)
-                                }
+
+                                } else dataBinding.btnEmoji.setImageResource(R.drawable.icon_keyboard)
+
                                 isEmojiMode = !isEmojiMode
-                            }
-                            else if (view.id == dataBinding.input.id) {
+
+                            } else if (view.id == dataBinding.input.id) {
+
                                 if (isEmojiMode) {
+
                                     dataBinding.btnEmoji.setImageResource(R.drawable.icon_mood)
+
                                     isEmojiMode = !isEmojiMode
                                 }
                             }
+
                             view.startAnimation(animationScaleUp)
                         }
                     }
                 )
+
                 if (inputViewState.vibrateClickedButton) {
                     context.vibrateDevice(
                         inputViewState.vibrateDuration.toLong()
@@ -291,6 +300,10 @@ class ChatEditText : RelativeLayout {
 
     fun getTextAsString(): String {
         return dataBinding.input.text.toString().trim()
+    }
+
+    fun clearInput() {
+        dataBinding.input.setText("")
     }
 
     fun addOnButtonsClicked(onButtonsClickedListener: OnButtonsClickedListener?) {
