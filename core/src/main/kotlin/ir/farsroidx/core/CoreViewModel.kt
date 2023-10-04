@@ -21,19 +21,19 @@ import kotlinx.coroutines.withContext
 //)
 abstract class CoreViewModel : ViewModel() {
 
-    suspend fun doInIOThread(block: () -> Unit) {
+    protected suspend fun doInIOThread(block: () -> Unit) {
         withContext(Dispatchers.IO) {
             block()
         }
     }
 
-    suspend fun doInMainThread(block: () -> Unit) {
+    protected suspend fun doInMainThread(block: () -> Unit) {
         withContext(Dispatchers.Main) {
             block()
         }
     }
 
-    fun viewModelScope(
+    protected fun viewModelScope(
         block: suspend CoroutineScope.() -> Unit
     ) = viewModelScope.launch(Dispatchers.IO) {
         block()
