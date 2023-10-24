@@ -47,7 +47,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
     private var pendingRequests = HashMap<Int, Bundle?>()
 
-    protected open var navHostFragmentId: Int = -1
+    private var navHostFragmentIdCache: Int = -1
 
     private var backStackChangeListener: FragmentManager.OnBackStackChangedListener? = null
 
@@ -184,7 +184,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (navHostFragmentId != -1) {
+        if (navHostFragmentIdCache != -1) {
             attachDestinationChangeListener()
             attachBackStackChangeListener()
         }
@@ -216,7 +216,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
                     }
 
             }.also {
-                findNavController(navHostFragmentId).addOnDestinationChangedListener(it)
+                findNavController(navHostFragmentIdCache).addOnDestinationChangedListener(it)
             }
     }
 
@@ -224,7 +224,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
         backStackChangeListener = FragmentManager.OnBackStackChangedListener {
 
-            supportFragmentManager.findFragmentById(navHostFragmentId)?.let {
+            supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
 
                 (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*>).apply {
                     takeIf { coreFragment ->
@@ -246,7 +246,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
             }
 
         }.also {
-            supportFragmentManager.findFragmentById(navHostFragmentId)
+            supportFragmentManager.findFragmentById(navHostFragmentIdCache)
                 ?.childFragmentManager
                 ?.addOnBackStackChangedListener(it)
         }
@@ -300,8 +300,8 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         navigatorExtras: Navigator.Extras?,
         requestCode: Int
     ) {
-        if (navHostFragmentId == -1) return
-        supportFragmentManager.findFragmentById(navHostFragmentId)?.let {
+        if (navHostFragmentIdCache == -1) return
+        supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
             (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
             }
@@ -309,17 +309,17 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     }
 
     fun setNavHostFragmentId(@IdRes navHostId: Int) {
-        navHostFragmentId = navHostId
+        navHostFragmentIdCache = navHostId
     }
 
     fun updateNavHostFragmentId(@IdRes navHostId: Int) {
-        navHostFragmentId = navHostId
+        navHostFragmentIdCache = navHostId
         reattach()
     }
 
     private fun reattach() {
 
-        if (navHostFragmentId != -1) {
+        if (navHostFragmentIdCache != -1) {
             detachBackStackChangeListener()
             detachDestinationChangeListener()
             attachBackStackChangeListener()
@@ -330,14 +330,14 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     private fun detachBackStackChangeListener() {
         backStackChangeListener?.let {
             supportFragmentManager.findFragmentById(
-                navHostFragmentId
+                navHostFragmentIdCache
             )?.childFragmentManager?.removeOnBackStackChangedListener(it)
         }
     }
 
     private fun detachDestinationChangeListener() {
         destinationChangeListener?.let {
-            findNavController(navHostFragmentId)
+            findNavController(navHostFragmentIdCache)
                 .removeOnDestinationChangedListener(
                     it
                 )
@@ -379,7 +379,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
             }
         }
 
-        if (navHostFragmentId != -1) {
+        if (navHostFragmentIdCache != -1) {
             detachBackStackChangeListener()
             detachDestinationChangeListener()
         }
