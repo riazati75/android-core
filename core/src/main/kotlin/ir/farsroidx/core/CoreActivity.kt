@@ -308,7 +308,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-    fun setNavHostFragmentId(@IdRes navHostId: Int) {
+    fun initNavHostFragmentId(@IdRes navHostId: Int) {
         navHostFragmentIdCache = navHostId
     }
 
