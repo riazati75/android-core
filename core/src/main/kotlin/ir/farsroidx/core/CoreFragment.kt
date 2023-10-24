@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "DEPRECATION")
 
 package ir.farsroidx.core
 
@@ -81,10 +81,6 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
 
     protected fun binding(block: VDB.() -> Unit) = binding.apply {
         block.invoke(this)
-    }
-
-    protected open fun VDB.test() {
-
     }
 
     protected fun navigate(deepLink: Uri) {
