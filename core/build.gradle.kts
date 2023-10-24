@@ -6,6 +6,8 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     // maven
     id("maven-publish")
+    // androidx
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -63,13 +65,12 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
 
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     // Navigation
-//    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
-//    implementation("androidx.navigation:navigation-common-ktx:2.6.0")
-//    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
 
     // Other
     api("com.airbnb.android:lottie:6.1.0")
@@ -102,7 +103,7 @@ publishing {
 
             groupId    = "ir.farsroidx"
             artifactId = "android-core"
-            version    = "1.3.14"
+            version    = "1.3.15"
 
             afterEvaluate {
                 from(
