@@ -2,6 +2,7 @@
 
 package ir.farsroidx.core
 
+import android.app.ProgressDialog
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import ir.farsroidx.core.additives.autoViewDataBinding
+import ir.farsroidx.core.additives.progressDialog
 import kotlinx.coroutines.Job
 
 abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
@@ -31,7 +33,14 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
 
     protected var activeJob: Job? = null
 
+    private lateinit var progressDialog: ProgressDialog
+
     internal var pendingRequest: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        progressDialog = onCreateProgressDialog()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -157,6 +166,34 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(PENDING_REQUEST, pendingRequest)
+    }
+
+    protected open fun onCreateProgressDialog(): ProgressDialog {
+        return progressDialog()
+    }
+
+    protected fun showProgressDialog() {
+        if (!progressDialog.isShowing) {
+            progressDialog.show()
+        }
+    }
+
+    protected fun hideProgressDialog() {
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        hideProgressDialog()
+
+        activeJob?.let {
+            if (it.isActive && !it.isCompleted && !it.isCancelled) {
+                it.cancel()
+            }
+        }
     }
 
     companion object {
