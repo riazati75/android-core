@@ -82,7 +82,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 //            }
 //        })
 
-        onInitialized()
+        binding.onInitialized()
     }
 
     /** Before onCreate called */
@@ -91,7 +91,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     }
 
     /** After onCreate called */
-    protected abstract fun onInitialized()
+    protected abstract fun VDB.onInitialized()
 
     @CallSuper
     protected open fun onBackStackPressed() {

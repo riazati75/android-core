@@ -39,18 +39,18 @@ class CoreExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
     private val emailSubject  : String = "Crash Report"
     private var emailHtmlBody : String = ""
 
-    override fun onInitialized() {
+    override fun ActivityExceptionBinding.onInitialized() {
 
-        binding.btnClose.setOnClickListener(::onClosePressed)
+        btnClose.setOnClickListener(::onClosePressed)
 
-        binding.btnSendMail.setOnClickListener(::onSendPressed)
+        btnSendMail.setOnClickListener(::onSendPressed)
 
         developerEmail = intent.getStringExtra(CoreExceptionHandler.EXTRA_DEVELOPER) ?: ""
 
         if (developerEmail.isEmpty()) {
-            binding.btnSendMail.gone()
+            btnSendMail.gone()
         } else {
-            binding.btnSendMail.visible()
+            btnSendMail.visible()
         }
 
         intent.getParcelableExtra<ApplicationErrorReport>(CoreExceptionHandler.EXTRA_THROWABLE)
@@ -60,7 +60,7 @@ class CoreExceptionActivity : CoreActivity<ActivityExceptionBinding>() {
                         showErrorInfo(errorReport)
                     } else {
                         Toast.makeText(
-                            this, "Developer Email not configuration.", Toast.LENGTH_LONG
+                            baseContext, "Developer Email not configuration.", Toast.LENGTH_LONG
                         ).show()
                         finish()
                     }

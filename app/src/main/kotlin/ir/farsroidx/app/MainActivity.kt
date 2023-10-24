@@ -5,11 +5,7 @@ import ir.farsroidx.core.CoreActivity
 
 class MainActivity : CoreActivity<ActivityMainBinding>() {
 
-    override fun onInitialized() {
+    override fun ActivityMainBinding.onInitialized() {
 
-        binding.apply {
-
-
-        }
     }
 }
