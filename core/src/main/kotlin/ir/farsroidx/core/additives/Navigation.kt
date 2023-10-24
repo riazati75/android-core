@@ -5,6 +5,8 @@ import androidx.navigation.fragment.findNavController
 import ir.farsroidx.core.CoreActivity
 import ir.farsroidx.core.CoreFragment
 
+// TODO: Navigation ================================================================= Navigation ===
+
 fun CoreFragment<*>.navigateUp(requestCode: Int, bundle: Bundle) {
 
     if (activity != null && activity is CoreActivity<*>) {

@@ -2,6 +2,7 @@
 
 package ir.farsroidx.core
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -23,6 +24,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import ir.farsroidx.core.additives.autoViewDataBinding
+import ir.farsroidx.core.additives.progressDialog
 import ir.farsroidx.core.model.SerializedData
 import kotlinx.coroutines.Job
 import java.io.Serializable
@@ -40,6 +42,8 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     protected var useTransitionAnimation = true
 
     protected var activeJob: Job? = null
+
+    private lateinit var progressDialog: ProgressDialog
 
     private var pendingRequests = HashMap<Int, Bundle?>()
 
@@ -59,6 +63,8 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
             if (isRtlDirection) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
 
         super.onCreate(savedInstanceState)
+
+        progressDialog = onCreateProgressDialog()
 
         @Suppress("UNCHECKED_CAST")
         savedInstanceState?.let {
@@ -315,15 +321,6 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        if (navHostFragmentIdCache != -1) {
-            detachBackStackChangeListener()
-            detachDestinationChangeListener()
-        }
-    }
-
     private fun detachBackStackChangeListener() {
         backStackChangeListener?.let {
             supportFragmentManager.findFragmentById(
@@ -347,6 +344,39 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         outState.putSerializable(
             PENDING_REQUESTS, SerializedData(pendingRequests)
         )
+    }
+
+    protected open fun onCreateProgressDialog(): ProgressDialog {
+        return progressDialog()
+    }
+
+    protected fun showProgressDialog() {
+        if (!progressDialog.isShowing) {
+            progressDialog.show()
+        }
+    }
+
+    protected fun hideProgressDialog() {
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        hideProgressDialog()
+
+        activeJob?.let {
+            if (it.isActive && !it.isCompleted && !it.isCancelled) {
+                it.cancel()
+            }
+        }
+
+        if (navHostFragmentIdCache != -1) {
+            detachBackStackChangeListener()
+            detachDestinationChangeListener()
+        }
     }
 
     companion object {
