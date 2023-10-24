@@ -47,17 +47,17 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
     ): View? {
         if (!this::_binding.isInitialized) {
             _binding = autoViewDataBinding()
-            onInitialized( savedInstanceState )
+            binding.onInitialized( savedInstanceState )
         }
-        onReInitializing( savedInstanceState )
+        binding.onReInitializing( savedInstanceState )
         return binding.root
     }
 
     /** After onCreate called */
-    protected abstract fun onInitialized(savedInstanceState: Bundle?)
+    protected abstract fun VDB.onInitialized(savedInstanceState: Bundle?)
 
     /** It is called every time the fragment is created */
-    protected open fun onReInitializing(savedInstanceState: Bundle?) {
+    protected open fun VDB.onReInitializing(savedInstanceState: Bundle?) {
 
     }
 
@@ -81,6 +81,10 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
 
     protected fun binding(block: VDB.() -> Unit) = binding.apply {
         block.invoke(this)
+    }
+
+    protected open fun VDB.test() {
+
     }
 
     protected fun navigate(deepLink: Uri) {
