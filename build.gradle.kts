@@ -1,3 +1,14 @@
+buildscript {
+
+    repositories {
+        google()
+    }
+
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.1")
+    }
+}
+
 plugins {
     // android
     id("com.android.application")        version "8.3.0-alpha01" apply false
@@ -7,4 +18,4 @@ plugins {
 }
 
 group   = "ir.farsroidx"
-version = "1.3.14"
+version = "1.3.15"
