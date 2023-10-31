@@ -18,29 +18,28 @@ import ir.farsroidx.core.additives.autoViewDataBinding
 abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     : RecyclerView.Adapter<CoreRecyclerViewAdapter.CoreViewHolder<VDB>>()
 {
-    protected lateinit var context: Context
+    protected lateinit var context     : Context
     protected lateinit var recyclerView: RecyclerView
 
     private lateinit var layoutInflater: LayoutInflater
 
-    protected var action1Clicked: (item: M) -> Unit = {}
-    protected var action2Clicked: (item: M) -> Unit = {}
-    protected var action3Clicked: (item: M) -> Unit = {}
-    protected var action4Clicked: (item: M) -> Unit = {}
-    protected var action5Clicked: (item: M) -> Unit = {}
-
-    protected var itemClicked: (item: M) -> Unit = {}
-
+    protected var itemClicked    : (item: M) -> Unit = {}
     protected var itemLongClicked: (item: M) -> Unit = {}
 
-    protected var onItemChange: (isEmpty: Boolean) -> Unit = {}
+    protected val itemClickedListeners     = mutableMapOf<String, (item: M) -> Unit   >()
+    protected val itemLongClickedListeners = mutableMapOf<String, (item: M) -> Boolean>()
+
+    private var itemsBackup: List<M>? = null
+
+    private val selectedItems = mutableListOf<M>()
+
+    private val items = mutableListOf<M>()
+
+    var isFiltered = false
+        private set
 
     class CoreViewHolder<DB : ViewDataBinding>(val dataBinding: DB) :
         RecyclerView.ViewHolder(dataBinding.root)
-
-    private val mItems = mutableListOf<M>()
-
-    private var mItemsBackup: List<M>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoreViewHolder<VDB> {
         return CoreViewHolder(
@@ -51,140 +50,121 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     override fun onBindViewHolder(holder: CoreViewHolder<VDB>, position: Int) {
-        onBindViewHolder(holder.dataBinding, mItems[position], position)
+        onBindViewHolder(holder.dataBinding, items[position], position)
     }
 
     @CallSuper
     open fun addItem(item: M) {
-        synchronized(mItems) {
-            this.mItems.add(item)
+        synchronized(this.items) {
+            this.items.add(item)
             notifyItemInserted(itemCount - 1)
-            onItemChange(itemCount == 0)
         }
     }
 
     @CallSuper
     open fun addItems(vararg items: M) {
-        synchronized(mItems) {
-            val iCount = itemCount
-            this.mItems.addAll(items)
-            notifyItemRangeInserted(iCount, itemCount)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            if (items.isNotEmpty()) {
+                val iCount = itemCount
+                this.items.addAll(items)
+                notifyItemRangeInserted(iCount, itemCount)
+            }
         }
     }
 
     @CallSuper
     open fun addItems(items: List<M>) {
-        synchronized(mItems) {
-            val iCount = itemCount
-            this.mItems.addAll(items)
-            notifyItemRangeInserted(iCount, itemCount)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            if (items.isNotEmpty()) {
+                val iCount = itemCount
+                this.items.addAll(items)
+                notifyItemRangeInserted(iCount, itemCount)
+            }
         }
     }
 
     @CallSuper
     open fun addItemAt(position: Int, item: M) {
-        synchronized(mItems) {
-            this.mItems.add(position, item)
+        synchronized(this.items) {
+            this.items.add(position, item)
             notifyItemInserted(position)
             notifyItemRangeChanged(position, itemCount)
-            onItemChange(itemCount == 0)
         }
     }
 
     @CallSuper
     open fun addItemsAt(position: Int, vararg items: M) {
-        synchronized(mItems) {
-            this.mItems.addAll(position, items.toList())
-            notifyItemRangeInserted(position, items.size)
-            notifyItemRangeChanged(position, itemCount)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            if (items.isNotEmpty()) {
+                this.items.addAll(position, items.toList())
+                notifyItemRangeInserted(position, items.size)
+                notifyItemRangeChanged(position, itemCount)
+            }
         }
     }
 
     @CallSuper
     open fun addItemsAt(position: Int, items: List<M>) {
-        synchronized(mItems) {
-            this.mItems.addAll(position, items)
-            notifyItemRangeInserted(position, items.size)
-            notifyItemRangeChanged(position, itemCount)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            if (items.isNotEmpty()) {
+                this.items.addAll(position, items)
+                notifyItemRangeInserted(position, items.size)
+                notifyItemRangeChanged(position, itemCount)
+            }
         }
     }
 
     @CallSuper
     open fun updateItem(item: M) {
-        synchronized(mItems) {
-            val position = this.mItems.indexOf(item)
-            this.mItems[position] = item
-            notifyItemChanged(position)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            val position = this.items.indexOf(item)
+            if (position != -1) {
+                this.items[position] = item
+                notifyItemChanged(position)
+            }
         }
     }
 
     @CallSuper
     open fun updateItemAt(position: Int, items: M) {
-        synchronized(mItems) {
-            this.mItems[position] = items
+        synchronized(this.items) {
+            this.items[position] = items
             notifyItemChanged(position)
-            onItemChange(itemCount == 0)
         }
     }
 
     @CallSuper
     open fun removeItem(item: M) {
-        synchronized(mItems) {
-            val position = this.mItems.indexOf(item)
-            this.mItems.remove(item)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, itemCount)
-            onItemChange(itemCount == 0)
+        synchronized(this.items) {
+            val position = this.items.indexOf(item)
+            if (position != -1) {
+                this.items.remove(item)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position, itemCount)
+            }
         }
     }
 
     @CallSuper
     open fun removeItemAt(position: Int) {
-        synchronized(mItems) {
-            this.mItems.removeAt(position)
+        synchronized(this.items) {
+            this.items.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, itemCount)
-            onItemChange(itemCount == 0)
         }
     }
 
     @CallSuper
     open fun clear() {
-        synchronized(mItems) {
+        synchronized(this.items) {
             if (itemCount > 0) {
                 val lastItemCount = itemCount
-                this.mItems.clear()
+                this.items.clear()
                 notifyItemRangeRemoved(0, lastItemCount)
-                notifyItemChanged(0, itemCount)
-                this.mItemsBackup = null
-                onItemChange(itemCount == 0)
+                notifyItemRangeChanged(0, itemCount)
+                this.itemsBackup = null
             }
         }
-    }
-
-    fun setOnAction1Clicked(onClicked: (item: M) -> Unit) {
-        this.action1Clicked = onClicked
-    }
-
-    fun setOnAction2Clicked(onClicked: (item: M) -> Unit) {
-        this.action2Clicked = onClicked
-    }
-
-    fun setOnAction3Clicked(onClicked: (item: M) -> Unit) {
-        this.action3Clicked = onClicked
-    }
-
-    fun setOnAction4Clicked(onClicked: (item: M) -> Unit) {
-        this.action4Clicked = onClicked
-    }
-
-    fun setOnAction5Clicked(onClicked: (item: M) -> Unit) {
-        this.action5Clicked = onClicked
     }
 
     fun setOnItemClicked(onClicked: (item: M) -> Unit) {
@@ -195,19 +175,33 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         this.itemLongClicked = onLongClicked
     }
 
-    fun setOnValueChange(onValueChange: (isEmpty: Boolean) -> Unit) {
-        this.onItemChange = onValueChange
+    fun setOnItemTagClicked(tag: String, listener: (item: M) -> Unit) {
+        itemClickedListeners[tag] = listener
     }
 
-    protected abstract fun onBindViewHolder(dataBinding: VDB, item: M, position: Int)
+    fun setOnItemTagLongClicked(tag: String, listener: (item: M) -> Boolean) {
+        itemLongClickedListeners[tag] = listener
+    }
 
-    protected abstract fun onViewRecycled(dataBinding: VDB)
+    protected fun getClickListener(tag: String, item: M): ((M) -> Unit)? {
+        if (itemClickedListeners.contains(tag)) {
+            return itemClickedListeners[tag]
+        }
+        return null
+    }
+
+    protected fun getLongClickListener(tag: String, item: M): ((M) -> Boolean)? {
+        if (itemLongClickedListeners.contains(tag)) {
+            return itemLongClickedListeners[tag]
+        }
+        return null
+    }
 
     @CallSuper
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
         this.context = recyclerView.context
+        this.recyclerView = recyclerView
         this.layoutInflater = LayoutInflater.from(context)
     }
 
@@ -218,7 +212,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     @CallSuper
-    override fun getItemCount(): Int = mItems.size
+    override fun getItemCount(): Int = this.items.size
 
     protected fun getColorById(@ColorRes resId: Int): Int {
         return ContextCompat.getColor(context, resId)
@@ -232,30 +226,66 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         return ContextCompat.getDrawable(context, resId)
     }
 
-    protected fun getItems(): List<M> = mItems
-
-    fun clearFilters() {
-        if (mItemsBackup != null) {
-            notifyItemRangeRemoved(0, itemCount)
-            mItems.clear()
-            mItems.addAll(mItemsBackup!!)
-            notifyItemRangeInserted(0, itemCount)
-            mItemsBackup = null
-        }
-    }
+    protected fun getItems(): List<M> = this.items
 
     @Synchronized
     fun filterItems(filterBlock: (M) -> Boolean) {
-        if (mItemsBackup == null) {
-            mItemsBackup = mutableListOf<M>().apply {
-                addAll(mItems)
+        if (this.itemsBackup == null) {
+            this.itemsBackup = mutableListOf<M>().apply {
+                addAll(this@CoreRecyclerViewAdapter.items)
             }
         }
-        mItemsBackup!!.filter(filterBlock).apply {
+        this.itemsBackup!!.filter(filterBlock).apply {
             notifyItemRangeRemoved(0, itemCount)
-            mItems.clear()
-            mItems.addAll(this)
+            this@CoreRecyclerViewAdapter.items.clear()
+            this@CoreRecyclerViewAdapter.items.addAll(this)
             notifyItemRangeInserted(0, itemCount)
         }
+        isFiltered = true
     }
+
+    fun clearFilters() {
+        if (this.itemsBackup != null) {
+            notifyItemRangeRemoved(0, itemCount)
+            this.items.clear()
+            this.items.addAll(this.itemsBackup!!)
+            notifyItemRangeInserted(0, itemCount)
+            this.itemsBackup = null
+            isFiltered = false
+        }
+    }
+
+    protected fun addSelectedItem(item: M) {
+        synchronized(this.selectedItems) {
+            val position = this.items.indexOf(item)
+            if (position != -1) {
+                this.selectedItems.add(item)
+                notifyItemChanged(position)
+            }
+        }
+    }
+
+    protected fun removeSelectedItem(item: M) {
+        synchronized(this.selectedItems) {
+            if (this.selectedItems.contains(item)) {
+                val position = this.items.indexOf(item)
+                if (position != -1) {
+                    this.selectedItems.remove(item)
+                    notifyItemChanged(position)
+                }
+            }
+        }
+    }
+
+    protected fun isSelectedItem(item: M): Boolean = this.selectedItems.contains(item)
+
+    fun getSelectedItems(): List<M> {
+        return getItems().filterIndexed { index, model ->
+            this.selectedItems.contains(model)
+        }
+    }
+
+    protected abstract fun onBindViewHolder(binding: VDB, item: M, position: Int)
+
+    protected abstract fun onViewRecycled(dataBinding: VDB)
 }
