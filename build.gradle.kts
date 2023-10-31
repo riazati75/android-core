@@ -18,4 +18,4 @@ plugins {
 }
 
 group   = "ir.farsroidx"
-version = "1.3.18"
+version = "1.3.19"
