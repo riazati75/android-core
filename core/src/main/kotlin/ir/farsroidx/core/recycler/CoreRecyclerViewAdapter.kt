@@ -29,13 +29,17 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     protected val itemClickedListeners     = mutableMapOf<String, (item: M) -> Unit   >()
     protected val itemLongClickedListeners = mutableMapOf<String, (item: M) -> Boolean>()
 
-    private var itemsBackup: List<M>? = null
+    private var itemsFilterBackup: List<M>? = null
+    private var itemsSortBackup  : List<M>? = null
 
     private val selectedItems = mutableListOf<M>()
 
     private val items = mutableListOf<M>()
 
     var isFiltered = false
+        private set
+
+    var isSorted = false
         private set
 
     class CoreViewHolder<DB : ViewDataBinding>(val dataBinding: DB) :
@@ -162,7 +166,8 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
                 this.items.clear()
                 notifyItemRangeRemoved(0, lastItemCount)
                 notifyItemRangeChanged(0, itemCount)
-                this.itemsBackup = null
+                this.itemsFilterBackup = null
+                this.itemsSortBackup = null
             }
         }
     }
@@ -183,14 +188,14 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         itemLongClickedListeners[tag] = listener
     }
 
-    protected fun getClickListener(tag: String, item: M): ((M) -> Unit)? {
+    protected fun getClickListener(tag: String): ((M) -> Unit)? {
         if (itemClickedListeners.contains(tag)) {
             return itemClickedListeners[tag]
         }
         return null
     }
 
-    protected fun getLongClickListener(tag: String, item: M): ((M) -> Boolean)? {
+    protected fun getLongClickListener(tag: String): ((M) -> Boolean)? {
         if (itemLongClickedListeners.contains(tag)) {
             return itemLongClickedListeners[tag]
         }
@@ -229,13 +234,13 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     protected fun getItems(): List<M> = this.items
 
     @Synchronized
-    fun filterItems(filterBlock: (M) -> Boolean) {
-        if (this.itemsBackup == null) {
-            this.itemsBackup = mutableListOf<M>().apply {
+    fun filterItems(invoker: (M) -> Boolean) {
+        if (this.itemsFilterBackup == null) {
+            this.itemsFilterBackup = mutableListOf<M>().apply {
                 addAll(this@CoreRecyclerViewAdapter.items)
             }
         }
-        this.itemsBackup!!.filter(filterBlock).apply {
+        this.itemsFilterBackup!!.filter(invoker).apply {
             notifyItemRangeRemoved(0, itemCount)
             this@CoreRecyclerViewAdapter.items.clear()
             this@CoreRecyclerViewAdapter.items.addAll(this)
@@ -245,22 +250,24 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     fun clearFilters() {
-        if (this.itemsBackup != null) {
+        if (this.itemsFilterBackup != null) {
             notifyItemRangeRemoved(0, itemCount)
             this.items.clear()
-            this.items.addAll(this.itemsBackup!!)
+            this.items.addAll(this.itemsFilterBackup!!)
             notifyItemRangeInserted(0, itemCount)
-            this.itemsBackup = null
+            this.itemsFilterBackup = null
             isFiltered = false
         }
     }
 
     protected fun addSelectedItem(item: M) {
         synchronized(this.selectedItems) {
-            val position = this.items.indexOf(item)
-            if (position != -1) {
-                this.selectedItems.add(item)
-                notifyItemChanged(position)
+            if (!this.selectedItems.contains(item)) {
+                val position = this.items.indexOf(item)
+                if (position != -1) {
+                    this.selectedItems.add(item)
+                    notifyItemChanged(position)
+                }
             }
         }
     }
@@ -279,9 +286,46 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
 
     protected fun isSelectedItem(item: M): Boolean = this.selectedItems.contains(item)
 
-    fun getSelectedItems(): List<M> {
-        return getItems().filterIndexed { index, model ->
-            this.selectedItems.contains(model)
+    fun getSelectedItems(): List<M> = selectedItems
+
+    fun sortAscendingBy(invoker: (M) -> Boolean) {
+        if (this.itemsSortBackup == null) {
+            this.itemsSortBackup = mutableListOf<M>().apply {
+                addAll(this@CoreRecyclerViewAdapter.items)
+            }
+        }
+        this.itemsSortBackup!!.sortedBy(invoker).apply {
+            notifyItemRangeRemoved(0, itemCount)
+            this@CoreRecyclerViewAdapter.items.clear()
+            this@CoreRecyclerViewAdapter.items.addAll(this)
+            notifyItemRangeInserted(0, itemCount)
+        }
+        isSorted = true
+    }
+
+    fun sortDescendingBy(invoker: (M) -> Boolean) {
+        if (this.itemsSortBackup == null) {
+            this.itemsSortBackup = mutableListOf<M>().apply {
+                addAll(this@CoreRecyclerViewAdapter.items)
+            }
+        }
+        this.itemsSortBackup!!.sortedByDescending(invoker).apply {
+            notifyItemRangeRemoved(0, itemCount)
+            this@CoreRecyclerViewAdapter.items.clear()
+            this@CoreRecyclerViewAdapter.items.addAll(this)
+            notifyItemRangeInserted(0, itemCount)
+        }
+        isSorted = true
+    }
+
+    fun clearSort() {
+        if (this.itemsSortBackup != null) {
+            notifyItemRangeRemoved(0, itemCount)
+            this.items.clear()
+            this.items.addAll(this.itemsSortBackup!!)
+            notifyItemRangeInserted(0, itemCount)
+            this.itemsSortBackup = null
+            isSorted = false
         }
     }
 
