@@ -31,6 +31,15 @@ import java.io.Serializable
 
 abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
+    companion object {
+
+        private const val PENDING_REQUESTS   = "PENDING_REQUESTS"
+        private const val DIALOG_NAVIGATOR   = "DIALOG"
+        private const val FRAGMENT_NAVIGATOR = "FRAGMENT"
+
+        internal const val FRAGMENT_REQUEST_CODE = "fragment:requestCode"
+    }
+
     protected lateinit var binding : VDB
         private set
 
@@ -77,6 +86,9 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
         // Auto DataBinding
         binding = autoViewDataBinding()
+
+        // Setup ViewState
+        getCoreViewModel()?.setOnViewStateChanged(this, ::viewStateHandler)
 
 //        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
 //            override fun handleOnBackPressed() {
@@ -181,16 +193,9 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         block.invoke(this)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        if (navHostFragmentIdCache != -1) {
-            attachDestinationChangeListener()
-            attachBackStackChangeListener()
-        }
-    }
-
     private fun attachDestinationChangeListener() {
+
+        if (navHostFragmentIdCache == -1) return
 
         destinationChangeListener = NavController
             .OnDestinationChangedListener { _, destination, arguments ->
@@ -221,6 +226,8 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     }
 
     private fun attachBackStackChangeListener() {
+
+        if (navHostFragmentIdCache == -1) return
 
         backStackChangeListener = FragmentManager.OnBackStackChangedListener {
 
@@ -264,34 +271,32 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         navDirection: NavDirections,
         navOptions: NavOptions?,
         requestCode: Int = -1
-    ) {
-        navigate(navDirection.actionId, navDirection.arguments, navOptions, null, requestCode)
-    }
+    ) = navigate(
+        navDirection.actionId, navDirection.arguments, navOptions, null, requestCode
+    )
 
     fun navigate(
         navDirection: NavDirections,
         navigatorExtras: Navigator.Extras?,
         requestCode: Int = -1
-    ) {
-        navigate(navDirection.actionId, navDirection.arguments, null, navigatorExtras, requestCode)
-    }
+    ) = navigate(
+        navDirection.actionId, navDirection.arguments, null, navigatorExtras, requestCode
+    )
 
-    fun navigate(@IdRes navDirection: Int, requestCode: Int) {
+    fun navigate(@IdRes navDirection: Int, requestCode: Int) =
         navigate(navDirection, null, requestCode)
-    }
 
-    fun navigate(@IdRes navDirection: Int, bundle: Bundle?, requestCode: Int) {
+    fun navigate(@IdRes navDirection: Int, bundle: Bundle?, requestCode: Int) =
         navigate(navDirection, bundle, null, requestCode)
-    }
 
     fun navigate(
         @IdRes navDirection: Int,
         bundle: Bundle?,
         navOptions: NavOptions?,
         requestCode: Int
-    ) {
-        navigate(navDirection, bundle, navOptions, null, requestCode)
-    }
+    ) = navigate(
+        navDirection, bundle, navOptions, null, requestCode
+    )
 
     fun navigate(
         @IdRes navDirection: Int,
@@ -300,7 +305,9 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         navigatorExtras: Navigator.Extras?,
         requestCode: Int
     ) {
+
         if (navHostFragmentIdCache == -1) return
+
         supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
             (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
@@ -319,15 +326,18 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
     private fun reattach() {
 
-        if (navHostFragmentIdCache != -1) {
-            detachBackStackChangeListener()
-            detachDestinationChangeListener()
-            attachBackStackChangeListener()
-            attachDestinationChangeListener()
-        }
+        if (navHostFragmentIdCache == -1) return
+
+        detachBackStackChangeListener()
+        detachDestinationChangeListener()
+        attachBackStackChangeListener()
+        attachDestinationChangeListener()
     }
 
     private fun detachBackStackChangeListener() {
+
+        if (navHostFragmentIdCache == -1) return
+
         backStackChangeListener?.let {
             supportFragmentManager.findFragmentById(
                 navHostFragmentIdCache
@@ -336,11 +346,12 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     }
 
     private fun detachDestinationChangeListener() {
+
+        if (navHostFragmentIdCache == -1) return
+
         destinationChangeListener?.let {
             findNavController(navHostFragmentIdCache)
-                .removeOnDestinationChangedListener(
-                    it
-                )
+                .removeOnDestinationChangedListener(it)
         }
     }
 
@@ -368,6 +379,24 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (navHostFragmentIdCache != -1) {
+            findNavController(navHostFragmentIdCache)
+                .handleDeepLink(intent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (navHostFragmentIdCache == -1) return
+
+        attachDestinationChangeListener()
+        attachBackStackChangeListener()
+    }
+
     override fun onStop() {
         super.onStop()
 
@@ -379,18 +408,13 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
             }
         }
 
-        if (navHostFragmentIdCache != -1) {
-            detachBackStackChangeListener()
-            detachDestinationChangeListener()
-        }
+        if (navHostFragmentIdCache == -1) return
+
+        detachBackStackChangeListener()
+        detachDestinationChangeListener()
     }
 
-    companion object {
+    open fun viewStateHandler(viewState: CoreViewState) {}
 
-        private const val PENDING_REQUESTS   = "PENDING_REQUESTS"
-        private const val DIALOG_NAVIGATOR   = "DIALOG"
-        private const val FRAGMENT_NAVIGATOR = "FRAGMENT"
-
-        internal const val FRAGMENT_REQUEST_CODE = "fragment:requestCode"
-    }
+    open fun getCoreViewModel(): CoreViewModel? = null
 }
