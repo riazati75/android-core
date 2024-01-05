@@ -25,7 +25,7 @@ import java.util.UUID
 
 // TODO: Image =========================================================================== Image ===
 
-fun ImageView.loadPhotoFromUrl(
+fun ImageView.webImage(
     imageUrl: String,
     @DrawableRes placeHolder: Int,
     @DrawableRes errorPlaceError: Int = placeHolder,
@@ -40,13 +40,13 @@ fun ImageView.loadPhotoFromUrl(
         .apply {
             builderBlock(this)
         }
-        .into(this@loadPhotoFromUrl)
+        .into(this@webImage)
         .apply {
             targetBlock(this)
         }
 }
 
-fun ImageView.loadPhotoFromUrl(
+fun ImageView.webImage(
     context: Context,
     imageUrl: Uri,
     @DrawableRes placeHolder: Int,

@@ -22,14 +22,22 @@ import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import ir.farsroidx.core.additives.autoViewDataBinding
+import ir.farsroidx.core.additives.makeViewModel
 import ir.farsroidx.core.additives.progressDialog
 import kotlinx.coroutines.Job
 
-abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
+abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel> : Fragment() {
+
+    companion object {
+        private const val PENDING_REQUEST = "PENDING_REQUEST"
+    }
 
     private lateinit var _binding : VDB
 
     protected val binding : VDB by lazy { _binding }
+
+    protected lateinit var viewModel: VM
+        private set
 
     protected var activeJob: Job? = null
 
@@ -39,18 +47,26 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = makeViewModel()
+
         progressDialog = onCreateProgressDialog()
+
+        // Setup ViewStateChange
+        viewModel.setOnViewStateChanged(this, ::onViewStateChanged)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         if (!this::_binding.isInitialized) {
-            _binding = autoViewDataBinding()
-            binding.onInitialized( savedInstanceState )
+            _binding = autoViewDataBinding(inflater, container, false)
         }
-        binding.onReInitializing( savedInstanceState )
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.onInitialized( savedInstanceState )
     }
 
     /** After onCreate called */
@@ -196,7 +212,9 @@ abstract class CoreFragment <VDB: ViewBinding> : Fragment() {
         }
     }
 
-    companion object {
-        private const val PENDING_REQUEST = "PENDING_REQUEST"
+    private fun onViewStateChanged(viewState: CoreViewState) {
+        binding.onViewStateChanged(viewState)
     }
+
+    open fun VDB.onViewStateChanged(viewState: CoreViewState) {}
 }

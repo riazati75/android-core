@@ -24,23 +24,29 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import ir.farsroidx.core.additives.autoViewDataBinding
+import ir.farsroidx.core.additives.getPersianDateTime
+import ir.farsroidx.core.additives.makeViewModel
 import ir.farsroidx.core.additives.progressDialog
 import ir.farsroidx.core.model.SerializedData
 import kotlinx.coroutines.Job
 import java.io.Serializable
 
-abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
+abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompatActivity() {
 
     companion object {
 
-        private const val PENDING_REQUESTS   = "PENDING_REQUESTS"
-        private const val DIALOG_NAVIGATOR   = "DIALOG"
-        private const val FRAGMENT_NAVIGATOR = "FRAGMENT"
+        private const val PENDING_REQUESTS       = "PENDING_REQUESTS"
+        private const val DIALOG_NAVIGATOR       = "DIALOG"
+        private const val FRAGMENT_NAVIGATOR     = "FRAGMENT"
 
         internal const val FRAGMENT_REQUEST_CODE = "fragment:requestCode"
+
     }
 
     protected lateinit var binding : VDB
+        private set
+
+    protected lateinit var viewModel: VM
         private set
 
     protected open var isRtlDirection = true
@@ -84,11 +90,14 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
             }
         }
 
+        // Auto Make ViewModel
+        viewModel = makeViewModel()
+
         // Auto DataBinding
         binding = autoViewDataBinding()
 
-        // Setup ViewState
-        getCoreViewModel()?.setOnViewStateChanged(this, ::viewStateHandler)
+        // Setup ViewStateChange
+        viewModel.setOnViewStateChanged(this, ::onViewStateChanged)
 
 //        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
 //            override fun handleOnBackPressed() {
@@ -233,7 +242,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
 
             supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
 
-                (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*>).apply {
+                (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *>).apply {
                     takeIf { coreFragment ->
                         coreFragment.pendingRequest > -1
                     }
@@ -309,7 +318,7 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         if (navHostFragmentIdCache == -1) return
 
         supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
-            (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*>).apply {
+            (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
             }
         }
@@ -400,8 +409,6 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
 
-        hideProgressDialog()
-
         activeJob?.let {
             if (it.isActive && !it.isCompleted && !it.isCancelled) {
                 it.cancel()
@@ -414,7 +421,9 @@ abstract class CoreActivity <VDB: ViewDataBinding> : AppCompatActivity() {
         detachDestinationChangeListener()
     }
 
-    open fun viewStateHandler(viewState: CoreViewState) {}
+    private fun onViewStateChanged(viewState: CoreViewState) {
+        binding.onViewStateChanged(viewState)
+    }
 
-    open fun getCoreViewModel(): CoreViewModel? = null
+    open fun VDB.onViewStateChanged(viewState: CoreViewState) {}
 }

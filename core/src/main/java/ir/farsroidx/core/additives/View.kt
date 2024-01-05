@@ -5,7 +5,6 @@ package ir.farsroidx.core.additives
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.Point
-import android.telephony.PhoneNumberUtils
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -122,11 +121,6 @@ fun EditText.readString(): String {
 
 fun EditText.isEmptyString(): Boolean {
     return readString().isEmpty()
-}
-
-fun EditText.isValidPhone(): Boolean {
-    return readString().startsWith("09") &&
-        PhoneNumberUtils.isGlobalPhoneNumber(readString())
 }
 
 fun ViewPager2.runSimpleSlider(

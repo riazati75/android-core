@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "unused")
+
 package ir.farsroidx.core.additives
 
 import android.app.ProgressDialog
@@ -12,18 +14,13 @@ import ir.farsroidx.core.R
 
 // TODO: Dialog ========================================================================= Dialog ===
 
-fun View.alertDialog(
-    @StyleRes styleResId: Int? = null,
-    invoker: AlertDialog.Builder.() -> Unit
-) = context.alertDialog(styleResId, invoker)
-
 fun Fragment.alertDialog(
-    @StyleRes styleResId: Int? = null,
+    @StyleRes styleResId: Int? = R.style.Theme_Farsroidx_Dialog,
     invoker: AlertDialog.Builder.() -> Unit
 ) = requireContext().alertDialog(styleResId, invoker)
 
 fun Context.alertDialog(
-    @StyleRes styleResId: Int? = null,
+    @StyleRes styleResId: Int? = R.style.Theme_Farsroidx_Dialog,
     invoker: AlertDialog.Builder.() -> Unit
 ) = if (styleResId == null) {
     AlertDialog.Builder(this)
@@ -31,7 +28,9 @@ fun Context.alertDialog(
     AlertDialog.Builder(this, styleResId)
 }.apply(invoker).create()
 
-fun AlertDialog.showWithCenteredButtons() {
+fun AlertDialog.showWithCenteredButtons(
+    isVerticalAlignmentButton: Boolean = false
+) {
 
     this.show().apply {
 
@@ -51,7 +50,9 @@ fun AlertDialog.showWithCenteredButtons() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-//                orientation = LinearLayout.VERTICAL
+                if (isVerticalAlignmentButton) {
+                    orientation = LinearLayout.VERTICAL
+                }
             }
 
             layoutParams.weight  = 1F
@@ -65,11 +66,11 @@ fun AlertDialog.showWithCenteredButtons() {
 }
 
 fun Fragment.progressDialog(
-    message: String = "لطفأ منتظر بمانید ..."
+    message: CharSequence = "لطفأ منتظر بمانید ..."
 ) = requireContext().progressDialog(message)
 
 fun Context.progressDialog(
-    message: String = "لطفأ منتظر بمانید ..."
+    message: CharSequence = "لطفأ منتظر بمانید ..."
 ) = ProgressDialog(
     this, R.style.Theme_Farsroidx_Dialog
 ).apply {

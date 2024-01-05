@@ -54,7 +54,9 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     override fun onBindViewHolder(holder: CoreViewHolder<VDB>, position: Int) {
-        onBindViewHolder(holder.dataBinding, items[position], position)
+        holder.dataBinding.apply {
+            onBindViewHolder(items[position], position)
+        }
     }
 
     @CallSuper
@@ -213,7 +215,9 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     @CallSuper
     override fun onViewRecycled(holder: CoreViewHolder<VDB>) {
         super.onViewRecycled(holder)
-        onViewRecycled(holder.dataBinding)
+        holder.dataBinding.apply {
+            onViewRecycled()
+        }
     }
 
     @CallSuper
@@ -329,7 +333,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
         }
     }
 
-    protected abstract fun onBindViewHolder(binding: VDB, item: M, position: Int)
+    protected abstract fun VDB.onBindViewHolder(item: M, position: Int)
 
-    protected abstract fun onViewRecycled(dataBinding: VDB)
+    protected abstract fun VDB.onViewRecycled()
 }

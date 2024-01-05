@@ -2,6 +2,9 @@
 
 package ir.farsroidx.core.additives
 
+import android.telephony.PhoneNumberUtils
+import android.widget.EditText
+
 // TODO: Validation ================================================================= Validation ===
 
 fun String.isValidIranianNationalCode() = this.takeIf {
@@ -11,3 +14,8 @@ fun String.isValidIranianNationalCode() = this.takeIf {
     val sum = it.slice(0..8).mapIndexed { i, x -> x * (10 - i) }.sum() % 11
     if (sum < 2) check == sum else check + sum == 11
 } ?: false
+
+fun EditText.isValidPhone(): Boolean {
+    return readString().startsWith("09") &&
+        PhoneNumberUtils.isGlobalPhoneNumber(readString())
+}

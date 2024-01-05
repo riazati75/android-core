@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.1")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.6")
     }
 }
 
@@ -18,4 +18,4 @@ plugins {
 }
 
 group   = "ir.farsroidx"
-version = "1.3.21"
+version = "1.3.22"

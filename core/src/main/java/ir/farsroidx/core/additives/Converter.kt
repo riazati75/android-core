@@ -2,19 +2,15 @@
 
 package ir.farsroidx.core.additives
 
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.util.Base64
-import saman.zamani.persiandate.PersianDate
-import saman.zamani.persiandate.PersianDateFormat
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.Locale
 
 // TODO: Converter =================================================================== Converter ===
@@ -35,10 +31,16 @@ val String.color: Int
     get() = Color.parseColor(this)
 
 val String.hexToColor: Int
-    get() = Color.parseColor("#$this")
+    get() =
+        if (this.startsWith("#")) {
+            Color.parseColor(this)
+        } else {
+            Color.parseColor("#$this")
+        }
 
 val String.md5: String
     get() {
+
         try {
 
             val digest = MessageDigest.getInstance("MD5")
@@ -82,9 +84,11 @@ fun Spanned.htmlFromString(): String {
     }
 }
 
-fun Number.toRialFormat(): String {
+fun Number?.toRialFormat(): String {
     return DecimalFormat("###,###,###")
-        .format(this)
+        .format(
+            this ?: 0
+        )
 }
 
 fun String?.toRialFormat(): String {
@@ -94,7 +98,7 @@ fun String?.toRialFormat(): String {
         )
 }
 
-fun String.encodeBase64(): String {
+fun String.toBase64(): String {
     return Base64.encodeToString(
         this.toByteArray(
             charset("UTF-8")
@@ -103,7 +107,7 @@ fun String.encodeBase64(): String {
     )
 }
 
-fun String.decodeBase64(): String {
+fun String.fromBase64(): String {
     return Base64.decode(this, Base64.DEFAULT)
         .toString(
             charset("UTF-8")
@@ -141,30 +145,4 @@ fun String.snakeToUpperCamelCase(): String {
             else
                 it.toString()
         }
-}
-
-@SuppressLint("SimpleDateFormat")
-fun String?.toPersianDate(
-    fromFormat: String = "yyyy-MM-dd'T'HH:mm:ss",
-    toFormat: String = "Y-m-d H:i:s",
-    raiseDay: Int? = null
-): String {
-    if (this == null) return ""
-    return try {
-        val parser = SimpleDateFormat(fromFormat)
-        val date   = parser.parse(this)
-        PersianDateFormat(toFormat)
-            .format(
-                PersianDate(
-                    date
-                ).apply {
-                    if (raiseDay != null) {
-                        addDay(raiseDay)
-                    }
-                }
-            )
-    } catch (e: Exception) {
-        e.printStackTrace()
-        ""
-    }
 }

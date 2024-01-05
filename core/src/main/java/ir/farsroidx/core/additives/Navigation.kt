@@ -7,11 +7,11 @@ import ir.farsroidx.core.CoreFragment
 
 // TODO: Navigation ================================================================= Navigation ===
 
-fun CoreFragment<*>.navigateUp(requestCode: Int, bundle: Bundle) {
+fun CoreFragment<*,*>.navigateUp(requestCode: Int, bundle: Bundle) {
 
-    if (activity != null && activity is CoreActivity<*>) {
+    if (activity != null && activity is CoreActivity<*,*>) {
 
-        (activity as CoreActivity<*>).setBundle(requestCode, bundle)
+        (activity as CoreActivity<*,*>).setBundle(requestCode, bundle)
 
     } else throw IllegalStateException(
         "You need to extend your activity from CoreActivity<*>"

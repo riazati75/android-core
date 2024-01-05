@@ -27,7 +27,7 @@ internal fun String.toSnakeCase(): String {
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> CoreActivity<*>.autoViewDataBinding(): T {
+internal fun <T: ViewDataBinding> CoreActivity<*, *>.autoViewDataBinding(): T {
 
     val persistentClass : Class<T> = ( javaClass.genericSuperclass as ParameterizedType )
         .actualTypeArguments[0] as Class<T>
@@ -44,7 +44,9 @@ internal fun <T: ViewDataBinding> CoreActivity<*>.autoViewDataBinding(): T {
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> CoreFragment<*>.autoViewDataBinding(): T {
+internal fun <T: ViewDataBinding> CoreFragment<*, *>.autoViewDataBinding(
+    inflater: LayoutInflater, container: ViewGroup? = null, attachToParent: Boolean = false
+): T {
 
     val persistentClass : Class<T> = ( javaClass.genericSuperclass as ParameterizedType )
         .actualTypeArguments[0] as Class<T>
@@ -55,10 +57,11 @@ internal fun <T: ViewDataBinding> CoreFragment<*>.autoViewDataBinding(): T {
         layoutName, "layout", requireActivity().packageName
     )
 
-    return DataBindingUtil.inflate<T>(layoutInflater, layoutResId, null, false)
-        .apply {
-            lifecycleOwner = this@autoViewDataBinding.viewLifecycleOwner
-        }
+    return DataBindingUtil.inflate<T>(
+        inflater, layoutResId, container, attachToParent
+    ).apply {
+        lifecycleOwner = this@autoViewDataBinding.viewLifecycleOwner
+    }
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */

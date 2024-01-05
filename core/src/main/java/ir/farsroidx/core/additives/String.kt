@@ -1,4 +1,8 @@
+@file:Suppress("unused")
+
 package ir.farsroidx.core.additives
+
+// TODO: String ========================================================================= String ===
 
 fun String?.similarityWith(other: String?, digits: Int = 3): Double {
 
