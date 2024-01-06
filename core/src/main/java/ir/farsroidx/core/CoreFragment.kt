@@ -26,7 +26,7 @@ import ir.farsroidx.core.additives.makeViewModel
 import ir.farsroidx.core.additives.progressDialog
 import kotlinx.coroutines.Job
 
-abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel> : Fragment() {
+abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> : Fragment() {
 
     companion object {
         private const val PENDING_REQUEST = "PENDING_REQUEST"
@@ -48,8 +48,10 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel> : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Auto Make ViewModel
         viewModel = makeViewModel()
 
+        // Instance of ProgressDialog
         progressDialog = onCreateProgressDialog()
 
         // Setup ViewStateChange
@@ -185,7 +187,11 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel> : Fragment() {
     }
 
     protected open fun onCreateProgressDialog(): ProgressDialog {
-        return progressDialog()
+        return progressDialog(
+            getStringRes(
+                R.string.progress_dialog_message
+            )
+        )
     }
 
     protected fun showProgressDialog() {
@@ -212,9 +218,9 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel> : Fragment() {
         }
     }
 
-    private fun onViewStateChanged(viewState: CoreViewState) {
+    private fun onViewStateChanged(viewState: VS) {
         binding.onViewStateChanged(viewState)
     }
 
-    open fun VDB.onViewStateChanged(viewState: CoreViewState) {}
+    open fun VDB.onViewStateChanged(viewState: VS) {}
 }

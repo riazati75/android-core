@@ -28,6 +28,16 @@
 
         </provider>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <!-- If you are using androidx.startup to initialize other components then define it in this block -->
+
+        </provider>
+
     </application>
 
 </manifest>

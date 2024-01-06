@@ -18,10 +18,12 @@ import ir.farsroidx.core.additives.autoViewDataBinding
 abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     : RecyclerView.Adapter<CoreRecyclerViewAdapter.CoreViewHolder<VDB>>()
 {
-    protected lateinit var context     : Context
-    protected lateinit var recyclerView: RecyclerView
 
-    private lateinit var layoutInflater: LayoutInflater
+    protected lateinit var context: Context
+        private set
+
+    protected lateinit var layoutInflater: LayoutInflater
+        private set
 
     protected var itemClicked    : (item: M) -> Unit = {}
     protected var itemLongClicked: (item: M) -> Unit = {}
@@ -54,9 +56,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     override fun onBindViewHolder(holder: CoreViewHolder<VDB>, position: Int) {
-        holder.dataBinding.apply {
-            onBindViewHolder(items[position], position)
-        }
+        holder.dataBinding.onBindViewHolder(items[position], position)
     }
 
     @CallSuper
@@ -208,16 +208,13 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         this.context = recyclerView.context
-        this.recyclerView = recyclerView
         this.layoutInflater = LayoutInflater.from(context)
     }
 
     @CallSuper
     override fun onViewRecycled(holder: CoreViewHolder<VDB>) {
         super.onViewRecycled(holder)
-        holder.dataBinding.apply {
-            onViewRecycled()
-        }
+        holder.dataBinding.onViewRecycled()
     }
 
     @CallSuper

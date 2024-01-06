@@ -17,10 +17,10 @@ private fun <T: ViewModel> ViewModelStoreOwner.getViewModelInstance(genericIndex
         .actualTypeArguments[genericIndex] as Class<T>
 }
 
-internal fun <T : CoreViewModel> CoreActivity<*, T>.makeViewModel(): T {
+internal fun <T : CoreViewModel<*>> CoreActivity<*, T, *>.makeViewModel(): T {
     return ViewModelProvider(this)[getViewModelInstance(1)]
 }
 
-internal fun <T : CoreViewModel> CoreFragment<*, T>.makeViewModel(): T {
+internal fun <T : CoreViewModel<*>> CoreFragment<*, T, *>.makeViewModel(): T {
     return ViewModelProvider(this)[getViewModelInstance(1)]
 }

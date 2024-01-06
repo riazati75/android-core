@@ -66,11 +66,11 @@ fun AlertDialog.showWithCenteredButtons(
 }
 
 fun Fragment.progressDialog(
-    message: CharSequence = "لطفأ منتظر بمانید ..."
+    message: CharSequence
 ) = requireContext().progressDialog(message)
 
 fun Context.progressDialog(
-    message: CharSequence = "لطفأ منتظر بمانید ..."
+    message: CharSequence
 ) = ProgressDialog(
     this, R.style.Theme_Farsroidx_Dialog
 ).apply {

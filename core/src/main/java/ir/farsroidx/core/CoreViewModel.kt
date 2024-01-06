@@ -3,6 +3,7 @@
 package ir.farsroidx.core
 
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +11,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 //@Deprecated(
 //    message = "Please replace it and use of CoreViewStateViewModel.",
@@ -23,38 +24,60 @@ import kotlinx.coroutines.withContext
 //    ),
 //    level = DeprecationLevel.WARNING
 //)
-abstract class CoreViewModel : ViewModel() {
+abstract class CoreViewModel <VS: Any> : ViewModel() {
 
-    private var _onViewStateChange: (CoreViewState) -> Unit = {}
+    private var _onStateChange: (VS) -> Unit = {}
 
     private var _lifecycleOwner: LifecycleOwner? = null
 
-    private val _liveViewState = MutableLiveData<CoreViewState>()
-    val liveViewState: LiveData<CoreViewState> = _liveViewState
+    private val _liveViewState = MutableLiveData<VS>()
+    val liveViewState: LiveData<VS> = _liveViewState
+
+    private val lifecycleEventObserver = LifecycleEventObserver { _, event ->
+        when(event) {
+            Lifecycle.Event.ON_CREATE  -> { onCreate()  }
+            Lifecycle.Event.ON_START   -> { onStart()   }
+            Lifecycle.Event.ON_RESUME  -> { onResume()  }
+            Lifecycle.Event.ON_PAUSE   -> { onPause()   }
+            Lifecycle.Event.ON_STOP    -> { onStop()    }
+            Lifecycle.Event.ON_DESTROY -> { onDestroy() }
+            Lifecycle.Event.ON_ANY     -> { onAny()     }
+        }
+    }
 
     internal fun setOnViewStateChanged(
-        lifecycleOwner: LifecycleOwner, onChange: (CoreViewState) -> Unit
+        lifecycleOwner: LifecycleOwner, onStateChange: (VS) -> Unit
     ) {
-        _lifecycleOwner    = lifecycleOwner
-        _onViewStateChange = onChange
+
+        _lifecycleOwner = lifecycleOwner
+        _onStateChange  = onStateChange
+
+        _lifecycleOwner?.lifecycle?.addObserver(lifecycleEventObserver)
+
     }
 
-    protected suspend fun doInIoScope(invoker: () -> Unit) {
-        withContext(Dispatchers.IO) {
-            invoker()
-        }
+    protected fun doInIoScope(
+        invoker: suspend CoroutineScope.() -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        invoker()
     }
 
-    protected suspend fun doInMainScope(invoker: () -> Unit) {
-        withContext(Dispatchers.Main) {
-            invoker()
-        }
+    protected fun doInDefaultScope(
+        invoker: suspend CoroutineScope.() -> Unit
+    ) = viewModelScope.launch(Dispatchers.Default) {
+        invoker()
     }
 
-    protected suspend fun doInDefaultScope(invoker: () -> Unit) {
-        withContext(Dispatchers.Default) {
-            invoker()
-        }
+    protected fun doInUnconfinedScope(
+        invoker: suspend CoroutineScope.() -> Unit
+    ) = viewModelScope.launch(Dispatchers.Unconfined) {
+        invoker()
+    }
+
+    protected fun doInMainScope(
+        invoker: () -> Unit
+    ) = viewModelScope.launch(Dispatchers.Main) {
+        invoker()
     }
 
     protected fun viewModelScope(
@@ -63,43 +86,42 @@ abstract class CoreViewModel : ViewModel() {
         invoker()
     }
 
-    protected suspend fun setViewState(viewState: CoreViewState) {
+    protected fun setViewState(viewState: VS) {
         _lifecycleOwner?.let { lifecycleOwner ->
-            doInMainScope {
-                if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
-                    _onViewStateChange( viewState )
-                } else {
-                    // TODO: Nothing to change =====================================================
+            if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+                doInMainScope {
+                    _onStateChange( viewState )
                 }
+            } else {
+                // TODO: Nothing to change =========================================================
             }
         }
     }
 
-    protected suspend fun setViewState(uniqueId: Int, data: Any?) {
-        _lifecycleOwner?.let { lifecycleOwner ->
-            doInMainScope {
-                if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
-                    _onViewStateChange( CoreViewState(uniqueId, data) )
-                } else {
-                    // TODO: Nothing to change =====================================================
-                }
-            }
-        }
-    }
-
-    protected fun setLiveDataValue(viewState: CoreViewState) {
+    protected fun setLiveDataValue(viewState: VS) {
         _liveViewState.value = viewState
     }
 
-    protected fun setLiveDataValue(uniqueId: Int, data: Any?) {
-        _liveViewState.value = CoreViewState(uniqueId, data)
-    }
-
-    protected fun postLiveDataValue(viewState: CoreViewState) {
+    protected fun postLiveDataValue(viewState: VS) {
         _liveViewState.postValue(viewState)
     }
 
-    protected fun postLiveDataValue(uniqueId: Int, data: Any?) {
-        _liveViewState.postValue(CoreViewState(uniqueId, data))
+    protected open fun onCreate() {}
+
+    protected open fun onStart() {}
+
+    protected open fun onResume() {}
+
+    protected open fun onPause() {}
+
+    protected open fun onStop() {}
+
+    protected open fun onDestroy() {}
+
+    protected open fun onAny() {}
+
+    fun postDelay(millsDelay: Long, invoker: () -> Unit) = doInIoScope {
+        delay(millsDelay)
+        doInMainScope(invoker)
     }
 }

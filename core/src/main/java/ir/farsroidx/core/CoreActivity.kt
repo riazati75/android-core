@@ -24,14 +24,15 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.findNavController
 import ir.farsroidx.core.additives.autoViewDataBinding
-import ir.farsroidx.core.additives.getPersianDateTime
 import ir.farsroidx.core.additives.makeViewModel
 import ir.farsroidx.core.additives.progressDialog
 import ir.farsroidx.core.model.SerializedData
 import kotlinx.coroutines.Job
 import java.io.Serializable
 
-abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompatActivity() {
+abstract class CoreActivity <
+    VDB: ViewDataBinding, VM: CoreViewModel<VS>, VS: Any
+> : AppCompatActivity() {
 
     companion object {
 
@@ -242,7 +243,7 @@ abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompa
 
             supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
 
-                (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *>).apply {
+                (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *, *>).apply {
                     takeIf { coreFragment ->
                         coreFragment.pendingRequest > -1
                     }
@@ -318,7 +319,7 @@ abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompa
         if (navHostFragmentIdCache == -1) return
 
         supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
-            (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *>).apply {
+            (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *, *>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
             }
         }
@@ -373,7 +374,11 @@ abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompa
     }
 
     protected open fun onCreateProgressDialog(): ProgressDialog {
-        return progressDialog()
+        return progressDialog(
+            getStringRes(
+                R.string.progress_dialog_message
+            )
+        )
     }
 
     protected fun showProgressDialog() {
@@ -421,9 +426,9 @@ abstract class CoreActivity <VDB: ViewDataBinding, VM: CoreViewModel> : AppCompa
         detachDestinationChangeListener()
     }
 
-    private fun onViewStateChanged(viewState: CoreViewState) {
+    private fun onViewStateChanged(viewState: VS) {
         binding.onViewStateChanged(viewState)
     }
 
-    open fun VDB.onViewStateChanged(viewState: CoreViewState) {}
+    open fun VDB.onViewStateChanged(viewState: VS) {}
 }
