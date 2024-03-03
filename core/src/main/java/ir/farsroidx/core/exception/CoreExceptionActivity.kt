@@ -23,7 +23,7 @@ import androidx.core.text.scale
 import androidx.core.text.toHtml
 import androidx.core.text.underline
 import androidx.lifecycle.lifecycleScope
-import ir.farsroidx.core.CoreActivity
+import ir.farsroidx.core.AbstractActivity
 import ir.farsroidx.core.R
 import ir.farsroidx.core.additives.gone
 import ir.farsroidx.core.additives.visible
@@ -32,7 +32,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CoreExceptionActivity : CoreActivity<ActivityExceptionBinding, CoreExceptionViewModel>() {
+class CoreExceptionActivity : AbstractActivity<
+    ActivityExceptionBinding, CoreExceptionViewModel, CoreExceptionViewState
+>() {
 
     private var developerEmail: String = ""
     private val emailType     : String = "text/html"

@@ -6,23 +6,22 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
 
 @Suppress("unused")
-class CoreFragmentStateAdapter(
+class FragmentStateAdapter(
     private val fragmentActivity: FragmentActivity
-) : FragmentStateAdapter(
+) : androidx.viewpager2.adapter.FragmentStateAdapter(
     fragmentActivity.supportFragmentManager,
     fragmentActivity.lifecycle
 ) {
 
-    private val mFragments = mutableListOf<CoreFragmentModel>()
+    private val mFragments = mutableListOf<FragmentModel>()
 
     override fun getItemCount(): Int = mFragments.size
 
     override fun createFragment(position: Int): Fragment = mFragments[position].fragment
 
-    fun addFragment(vararg fragments: CoreFragmentModel) {
+    fun addFragment(vararg fragments: FragmentModel) {
         synchronized(mFragments) {
             fragments.forEach {
                 mFragments.add(it)
@@ -31,7 +30,7 @@ class CoreFragmentStateAdapter(
         }
     }
 
-    fun getByPosition(position: Int): CoreFragmentModel {
+    fun getByPosition(position: Int): FragmentModel {
         return mFragments[position]
     }
 
@@ -49,4 +48,10 @@ class CoreFragmentStateAdapter(
             fragmentActivity, icon
         )
     }
+
+    data class FragmentModel(
+        val fragment: Fragment,
+        val title: String = "",
+        val icon: Int? = null
+    )
 }

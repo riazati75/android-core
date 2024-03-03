@@ -52,3 +52,18 @@ private fun String.getLevenshteinDistance(other: String): Int {
 
     return t[m][n]
 }
+
+fun String.clearJsonString(): String {
+
+    var value = this.replace("\\","")//.replace("\\\\\\\"", "\"")
+
+    if (value.startsWith("\"")) {
+        value = value.substring(1)
+    }
+
+    if (value.endsWith("\"")) {
+        value = value.substring(0, value.length - 1)
+    }
+
+    return value
+}

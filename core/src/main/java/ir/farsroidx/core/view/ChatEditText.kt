@@ -83,7 +83,7 @@ class ChatEditText : RelativeLayout {
 
             emojiSheetBinding = SheetChatEmojiBinding.inflate(layoutInflater)
 
-            emojiSheetDialog = bottomSheet<SheetChatEmojiBinding> { emojiSheetBinding }
+            emojiSheetDialog = bottomSheet { emojiSheetBinding }
 
             btnSend.setOnClickListener(
                 onClickListener {

@@ -5,7 +5,7 @@ package ir.farsroidx.core.helper
 import android.os.Handler
 import android.os.Looper
 
-class CoreTimerRunnable(private val initValue: Int, val run: (String, Boolean) -> Unit) : Runnable {
+class TimerRunnable(private val initValue: Int, val run: (String, Boolean) -> Unit) : Runnable {
 
     private val handler: Handler = Handler(Looper.getMainLooper())
 

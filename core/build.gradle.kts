@@ -53,6 +53,7 @@ dependencies {
 
     // Android-X
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.browser:browser:1.5.0")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.fragment:fragment-ktx:1.6.1")

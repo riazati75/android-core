@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 //    ),
 //    level = DeprecationLevel.WARNING
 //)
-abstract class CoreViewModel <VS: Any> : ViewModel() {
+abstract class AbstractViewModel <VS: Any> : ViewModel() {
 
     private var _onStateChange: (VS) -> Unit = {}
 
@@ -120,8 +120,10 @@ abstract class CoreViewModel <VS: Any> : ViewModel() {
 
     protected open fun onAny() {}
 
-    fun postDelay(millsDelay: Long, invoker: () -> Unit) = doInIoScope {
-        delay(millsDelay)
-        doInMainScope(invoker)
+    fun post(func: () -> Unit) = viewModelScope { doInMainScope { func() } }
+
+    fun postDelay(mills: Long, func: () -> Unit) = viewModelScope {
+        delay(mills)
+        doInMainScope { func() }
     }
 }

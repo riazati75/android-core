@@ -11,7 +11,7 @@ import java.util.Date
 
 // TODO: Date ============================================================================= Date ===
 
-fun unixTimestamp() = System.currentTimeMillis()
+fun timestamp() = System.currentTimeMillis()
 
 /**
  * @see <a href="http://developer.android.com/reference/android/text/format/DateFormat.html">DateFormat</a>
@@ -21,7 +21,7 @@ fun getDateTime(
 ): CharSequence {
     return DateFormat.format(
         format, Date(
-            unixTimestamp()
+            timestamp()
         )
     )
 }
@@ -38,7 +38,7 @@ fun getPersianDateTime(
 ): CharSequence {
     return PersianDateFormat.format(
         PersianDate(
-            unixTimestamp()
+            timestamp()
         ).apply {
             raiseYear ?.let { addYear(it)  }
             raiseMonth?.let { addMonth(it) }
@@ -122,6 +122,20 @@ fun Long?.toPersianDate(
                 raiseWeek ?.let { addWeek(it)  }
                 raiseDay  ?.let { addDay(it)   }
             }
+        )
+    }
+}
+
+/**
+ * @see <a href="https://github.com/samanzamani/PersianDate#persiandateformat">PersianDate</a>
+ * */
+fun Long?.toPersianDate(pattern: String = "Y/m/d"): String {
+    return if (this == null) ""
+    else {
+        PersianDateFormat(pattern).format(
+            PersianDate(
+                this
+            )
         )
     }
 }

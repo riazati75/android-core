@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -16,7 +17,9 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -29,9 +32,10 @@ import ir.farsroidx.core.additives.progressDialog
 import ir.farsroidx.core.model.SerializedData
 import kotlinx.coroutines.Job
 import java.io.Serializable
+import kotlin.reflect.KClass
 
-abstract class CoreActivity <
-    VDB: ViewDataBinding, VM: CoreViewModel<VS>, VS: Any
+abstract class AbstractActivity <
+    VDB: ViewDataBinding, VM: AbstractViewModel<VS>, VS: Any
 > : AppCompatActivity() {
 
     companion object {
@@ -50,6 +54,8 @@ abstract class CoreActivity <
     protected lateinit var viewModel: VM
         private set
 
+    private lateinit var progressDialog: ProgressDialog
+
     protected open var isRtlDirection = true
 
     protected var enterAnimation = android.R.anim.fade_in
@@ -58,8 +64,6 @@ abstract class CoreActivity <
     protected var useTransitionAnimation = true
 
     protected var activeJob: Job? = null
-
-    private lateinit var progressDialog: ProgressDialog
 
     private var pendingRequests = HashMap<Int, Bundle?>()
 
@@ -97,16 +101,33 @@ abstract class CoreActivity <
         // Auto DataBinding
         binding = autoViewDataBinding()
 
-        // Setup ViewStateChange
-        viewModel.setOnViewStateChanged(this, ::onViewStateChanged)
-
 //        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
 //            override fun handleOnBackPressed() {
 //                onBackStackPressed()
 //            }
 //        })
 
-        binding.onInitialized()
+        binding {
+
+            // Setup ViewStateChange
+            viewModel.setOnViewStateChanged(this@AbstractActivity, ::onViewStateChange)
+
+            run loop@ {
+
+                (root as ViewGroup).forEach {
+
+                    if (it is FragmentContainerView) {
+
+                        // Setup NavHostId
+                        initNavHostFragmentId(it.id)
+
+                        return@loop
+                    }
+                }
+            }
+
+            onInitialized()
+        }
     }
 
     /** Before onCreate called */
@@ -165,7 +186,7 @@ abstract class CoreActivity <
         runTransitionAnimation()
     }
 
-    fun startAppSettings() {
+    fun openAppSettings() {
 
         startActivity(
             Intent(
@@ -243,7 +264,7 @@ abstract class CoreActivity <
 
             supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
 
-                (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *, *>).apply {
+                (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *, *>).apply {
                     takeIf { coreFragment ->
                         coreFragment.pendingRequest > -1
                     }
@@ -319,7 +340,7 @@ abstract class CoreActivity <
         if (navHostFragmentIdCache == -1) return
 
         supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
-            (it.childFragmentManager.primaryNavigationFragment as CoreFragment<*, *, *>).apply {
+            (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *, *>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
             }
         }
@@ -426,9 +447,17 @@ abstract class CoreActivity <
         detachDestinationChangeListener()
     }
 
-    private fun onViewStateChanged(viewState: VS) {
+    private fun onViewStateChange(viewState: VS) {
         binding.onViewStateChanged(viewState)
     }
 
     open fun VDB.onViewStateChanged(viewState: VS) {}
+
+    protected fun viewDataBingingClass(): KClass<out VDB> {
+        return binding::class
+    }
+
+    protected fun viewModelClass(): KClass<out VM> {
+        return viewModel::class
+    }
 }

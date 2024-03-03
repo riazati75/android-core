@@ -1,5 +1,5 @@
 package ir.farsroidx.core.exception
 
-import ir.farsroidx.core.CoreViewModel
+import ir.farsroidx.core.AbstractViewModel
 
-class CoreExceptionViewModel : CoreViewModel()
+class CoreExceptionViewModel : AbstractViewModel<CoreExceptionViewState>()

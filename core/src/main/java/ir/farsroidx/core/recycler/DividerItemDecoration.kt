@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.roundToInt
 
-class CoreDividerItemDecoration : RecyclerView.ItemDecoration {
+class DividerItemDecoration : RecyclerView.ItemDecoration {
 
     companion object {
 

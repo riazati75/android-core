@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Point
 import android.view.MotionEvent
 import android.view.View
+import android.webkit.WebView
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -151,3 +152,9 @@ fun ViewPager2.runSimpleSlider(
         delay
     )
 }
+
+fun WebView.loadFromAssets(filePath: String) =
+    this.loadUrl("file:///android_asset/$filePath")
+
+fun WebView.loadAsStringHtml(html: String) =
+    this.loadData(html,  "text/html; charset=utf-8", "UTF-8")

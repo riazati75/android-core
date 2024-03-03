@@ -15,8 +15,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import ir.farsroidx.core.additives.autoViewDataBinding
 
-abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
-    : RecyclerView.Adapter<CoreRecyclerViewAdapter.CoreViewHolder<VDB>>()
+abstract class AbstractRecyclerAdapter<VDB : ViewDataBinding, M : Any>
+    : RecyclerView.Adapter<AbstractRecyclerAdapter.AbstractViewHolder<VDB>>()
 {
 
     protected lateinit var context: Context
@@ -44,18 +44,18 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     var isSorted = false
         private set
 
-    class CoreViewHolder<DB : ViewDataBinding>(val dataBinding: DB) :
+    class AbstractViewHolder<DB : ViewDataBinding>(val dataBinding: DB) :
         RecyclerView.ViewHolder(dataBinding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoreViewHolder<VDB> {
-        return CoreViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VDB> {
+        return AbstractViewHolder(
             autoViewDataBinding(
                 context, layoutInflater, parent, false
             )
         )
     }
 
-    override fun onBindViewHolder(holder: CoreViewHolder<VDB>, position: Int) {
+    override fun onBindViewHolder(holder: AbstractViewHolder<VDB>, position: Int) {
         holder.dataBinding.onBindViewHolder(items[position], position)
     }
 
@@ -212,7 +212,7 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     }
 
     @CallSuper
-    override fun onViewRecycled(holder: CoreViewHolder<VDB>) {
+    override fun onViewRecycled(holder: AbstractViewHolder<VDB>) {
         super.onViewRecycled(holder)
         holder.dataBinding.onViewRecycled()
     }
@@ -238,13 +238,13 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     fun filterItems(invoker: (M) -> Boolean) {
         if (this.itemsFilterBackup == null) {
             this.itemsFilterBackup = mutableListOf<M>().apply {
-                addAll(this@CoreRecyclerViewAdapter.items)
+                addAll(this@AbstractRecyclerAdapter.items)
             }
         }
         this.itemsFilterBackup!!.filter(invoker).apply {
             notifyItemRangeRemoved(0, itemCount)
-            this@CoreRecyclerViewAdapter.items.clear()
-            this@CoreRecyclerViewAdapter.items.addAll(this)
+            this@AbstractRecyclerAdapter.items.clear()
+            this@AbstractRecyclerAdapter.items.addAll(this)
             notifyItemRangeInserted(0, itemCount)
         }
         isFiltered = true
@@ -292,13 +292,13 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     fun sortAscendingBy(invoker: (M) -> Boolean) {
         if (this.itemsSortBackup == null) {
             this.itemsSortBackup = mutableListOf<M>().apply {
-                addAll(this@CoreRecyclerViewAdapter.items)
+                addAll(this@AbstractRecyclerAdapter.items)
             }
         }
         this.itemsSortBackup!!.sortedBy(invoker).apply {
             notifyItemRangeRemoved(0, itemCount)
-            this@CoreRecyclerViewAdapter.items.clear()
-            this@CoreRecyclerViewAdapter.items.addAll(this)
+            this@AbstractRecyclerAdapter.items.clear()
+            this@AbstractRecyclerAdapter.items.addAll(this)
             notifyItemRangeInserted(0, itemCount)
         }
         isSorted = true
@@ -307,13 +307,13 @@ abstract class CoreRecyclerViewAdapter<VDB : ViewDataBinding, M : Any>
     fun sortDescendingBy(invoker: (M) -> Boolean) {
         if (this.itemsSortBackup == null) {
             this.itemsSortBackup = mutableListOf<M>().apply {
-                addAll(this@CoreRecyclerViewAdapter.items)
+                addAll(this@AbstractRecyclerAdapter.items)
             }
         }
         this.itemsSortBackup!!.sortedByDescending(invoker).apply {
             notifyItemRangeRemoved(0, itemCount)
-            this@CoreRecyclerViewAdapter.items.clear()
-            this@CoreRecyclerViewAdapter.items.addAll(this)
+            this@AbstractRecyclerAdapter.items.clear()
+            this@AbstractRecyclerAdapter.items.addAll(this)
             notifyItemRangeInserted(0, itemCount)
         }
         isSorted = true

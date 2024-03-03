@@ -25,8 +25,9 @@ import ir.farsroidx.core.additives.autoViewDataBinding
 import ir.farsroidx.core.additives.makeViewModel
 import ir.farsroidx.core.additives.progressDialog
 import kotlinx.coroutines.Job
+import kotlin.reflect.KClass
 
-abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> : Fragment() {
+abstract class AbstractFragment <VDB: ViewBinding, VM: AbstractViewModel<VS>, VS: Any> : Fragment() {
 
     companion object {
         private const val PENDING_REQUEST = "PENDING_REQUEST"
@@ -39,9 +40,9 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> :
     protected lateinit var viewModel: VM
         private set
 
-    protected var activeJob: Job? = null
-
     private lateinit var progressDialog: ProgressDialog
+
+    protected var activeJob: Job? = null
 
     internal var pendingRequest: Int = -1
 
@@ -55,7 +56,7 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> :
         progressDialog = onCreateProgressDialog()
 
         // Setup ViewStateChange
-        viewModel.setOnViewStateChanged(this, ::onViewStateChanged)
+        viewModel.setOnViewStateChanged(this, ::onViewStateChange)
     }
 
     override fun onCreateView(
@@ -174,10 +175,10 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> :
 
     private fun extractPendingRequest(bundle: Bundle, requestCode: Int) {
         pendingRequest = if (requestCode > -1) {
-            bundle.putInt(CoreActivity.FRAGMENT_REQUEST_CODE, requestCode)
+            bundle.putInt(AbstractActivity.FRAGMENT_REQUEST_CODE, requestCode)
             requestCode
         } else {
-            bundle.getInt(CoreActivity.FRAGMENT_REQUEST_CODE, -1)
+            bundle.getInt(AbstractActivity.FRAGMENT_REQUEST_CODE, -1)
         }
     }
 
@@ -218,9 +219,17 @@ abstract class CoreFragment <VDB: ViewBinding, VM: CoreViewModel<VS>, VS: Any> :
         }
     }
 
-    private fun onViewStateChanged(viewState: VS) {
+    private fun onViewStateChange(viewState: VS) {
         binding.onViewStateChanged(viewState)
     }
 
     open fun VDB.onViewStateChanged(viewState: VS) {}
+
+    protected fun viewDataBingingClass(): KClass<out VDB> {
+        return binding::class
+    }
+
+    protected fun viewModelClass(): KClass<out VM> {
+        return viewModel::class
+    }
 }

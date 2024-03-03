@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import ir.farsroidx.core.CoreActivity
-import ir.farsroidx.core.CoreFragment
-import ir.farsroidx.core.recycler.CoreRecyclerViewAdapter
+import ir.farsroidx.core.AbstractActivity
+import ir.farsroidx.core.AbstractFragment
+import ir.farsroidx.core.recycler.AbstractRecyclerAdapter
 import java.lang.reflect.ParameterizedType
 import java.util.Locale
 
@@ -27,7 +27,7 @@ internal fun String.toSnakeCase(): String {
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> CoreActivity<*, *>.autoViewDataBinding(): T {
+internal fun <T: ViewDataBinding> AbstractActivity<*, *, *>.autoViewDataBinding(): T {
 
     val persistentClass : Class<T> = ( javaClass.genericSuperclass as ParameterizedType )
         .actualTypeArguments[0] as Class<T>
@@ -44,7 +44,7 @@ internal fun <T: ViewDataBinding> CoreActivity<*, *>.autoViewDataBinding(): T {
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> CoreFragment<*, *>.autoViewDataBinding(
+internal fun <T: ViewDataBinding> AbstractFragment<*, *, *>.autoViewDataBinding(
     inflater: LayoutInflater, container: ViewGroup? = null, attachToParent: Boolean = false
 ): T {
 
@@ -65,7 +65,7 @@ internal fun <T: ViewDataBinding> CoreFragment<*, *>.autoViewDataBinding(
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> CoreRecyclerViewAdapter<*, *>.autoViewDataBinding(
+internal fun <T: ViewDataBinding> AbstractRecyclerAdapter<*, *>.autoViewDataBinding(
     context: Context, layoutInflater: LayoutInflater,
     parent: ViewGroup? = null, attachToParent: Boolean = false
 ): T {
