@@ -5,17 +5,17 @@ buildscript {
     }
 
     dependencies {
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.1")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.6")
     }
 }
 
 plugins {
     // android
-    id("com.android.application")        version "8.3.0-alpha01" apply false
-    id("com.android.library")            version "8.3.0-alpha01" apply false
+    id("com.android.application")      version "8.2.2" apply false
+    id("com.android.library")          version "8.2.2" apply false
     // jetbrains
-    id("org.jetbrains.kotlin.android")   version "1.8.21"        apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
 }
 
 group   = "ir.farsroidx"
-version = "1.3.21"
+version = "1.3.22"
