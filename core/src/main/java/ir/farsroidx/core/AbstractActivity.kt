@@ -34,9 +34,7 @@ import kotlinx.coroutines.Job
 import java.io.Serializable
 import kotlin.reflect.KClass
 
-abstract class AbstractActivity <
-    VDB: ViewDataBinding, VM: AbstractViewModel<VS>, VS: Any
-> : AppCompatActivity() {
+abstract class AbstractActivity <VDB: ViewDataBinding, VM: AbstractViewModel> : AppCompatActivity() {
 
     companion object {
 
@@ -264,7 +262,7 @@ abstract class AbstractActivity <
 
             supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
 
-                (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *, *>).apply {
+                (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *>).apply {
                     takeIf { coreFragment ->
                         coreFragment.pendingRequest > -1
                     }
@@ -340,7 +338,7 @@ abstract class AbstractActivity <
         if (navHostFragmentIdCache == -1) return
 
         supportFragmentManager.findFragmentById(navHostFragmentIdCache)?.let {
-            (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *, *>).apply {
+            (it.childFragmentManager.primaryNavigationFragment as AbstractFragment<*, *>).apply {
                 navigate(navDirection, bundle, navOptions, navigatorExtras, requestCode)
             }
         }
@@ -414,7 +412,7 @@ abstract class AbstractActivity <
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
         if (navHostFragmentIdCache != -1) {
@@ -447,11 +445,11 @@ abstract class AbstractActivity <
         detachDestinationChangeListener()
     }
 
-    private fun onViewStateChange(viewState: VS) {
+    private fun onViewStateChange(viewState: Any) {
         binding.onViewStateChanged(viewState)
     }
 
-    open fun VDB.onViewStateChanged(viewState: VS) {}
+    open fun VDB.onViewStateChanged(viewState: Any) {}
 
     protected fun viewDataBingingClass(): KClass<out VDB> {
         return binding::class
