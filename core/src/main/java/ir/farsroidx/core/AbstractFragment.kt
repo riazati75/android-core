@@ -27,7 +27,7 @@ import ir.farsroidx.core.additives.progressDialog
 import kotlinx.coroutines.Job
 import kotlin.reflect.KClass
 
-abstract class AbstractFragment <VDB: ViewBinding, VM: AbstractViewModel<VS>, VS: Any> : Fragment() {
+abstract class AbstractFragment <VDB: ViewBinding, VM: AbstractViewModel> : Fragment() {
 
     companion object {
         private const val PENDING_REQUEST = "PENDING_REQUEST"
@@ -219,11 +219,11 @@ abstract class AbstractFragment <VDB: ViewBinding, VM: AbstractViewModel<VS>, VS
         }
     }
 
-    private fun onViewStateChange(viewState: VS) {
+    private fun onViewStateChange(viewState: Any) {
         binding.onViewStateChanged(viewState)
     }
 
-    open fun VDB.onViewStateChanged(viewState: VS) {}
+    open fun VDB.onViewStateChanged(viewState: Any) {}
 
     protected fun viewDataBingingClass(): KClass<out VDB> {
         return binding::class

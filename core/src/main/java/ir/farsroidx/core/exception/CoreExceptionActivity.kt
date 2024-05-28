@@ -32,9 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CoreExceptionActivity : AbstractActivity<
-    ActivityExceptionBinding, CoreExceptionViewModel, CoreExceptionViewState
->() {
+class CoreExceptionActivity : AbstractActivity<ActivityExceptionBinding, CoreExceptionViewModel>() {
 
     private var developerEmail: String = ""
     private val emailType     : String = "text/html"

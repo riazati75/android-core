@@ -3,7 +3,7 @@ package ir.farsroidx.app
 import ir.farsroidx.app.databinding.ActivityMainBinding
 import ir.farsroidx.core.AbstractActivity
 
-class MainActivity : AbstractActivity<ActivityMainBinding, MainViewModel, MainViewState>() {
+class MainActivity : AbstractActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun ActivityMainBinding.onInitialized() {
 

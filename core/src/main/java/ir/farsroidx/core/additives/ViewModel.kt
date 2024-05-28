@@ -22,11 +22,11 @@ private fun <T: ViewModel> ViewModelStoreOwner.getViewModelInstance(genericIndex
         .actualTypeArguments[genericIndex] as Class<T>
 }
 
-internal fun <T : AbstractViewModel<*>> AbstractActivity<*, T, *>.makeViewModel(): T {
+internal fun <T : AbstractViewModel> AbstractActivity<*, T>.makeViewModel(): T {
     return ViewModelProvider(this)[getViewModelInstance(1)]
 }
 
-internal fun <T : AbstractViewModel<*>> AbstractFragment<*, T, *>.makeViewModel(): T {
+internal fun <T : AbstractViewModel> AbstractFragment<*, T>.makeViewModel(): T {
     return ViewModelProvider(this)[getViewModelInstance(1)]
 }
 

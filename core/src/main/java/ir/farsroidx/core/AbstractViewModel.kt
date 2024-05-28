@@ -24,14 +24,14 @@ import kotlinx.coroutines.launch
 //    ),
 //    level = DeprecationLevel.WARNING
 //)
-abstract class AbstractViewModel <VS: Any> : ViewModel() {
+abstract class AbstractViewModel : ViewModel() {
 
-    private var _onStateChange: (VS) -> Unit = {}
+    private var _onStateChange: (Any) -> Unit = {}
 
     private var _lifecycleOwner: LifecycleOwner? = null
 
-    private val _liveViewState = MutableLiveData<VS>()
-    val liveViewState: LiveData<VS> = _liveViewState
+    private val _liveViewState = MutableLiveData<Any>()
+    val liveViewState: LiveData<Any> = _liveViewState
 
     private val lifecycleEventObserver = LifecycleEventObserver { _, event ->
         when(event) {
@@ -46,7 +46,7 @@ abstract class AbstractViewModel <VS: Any> : ViewModel() {
     }
 
     internal fun setOnViewStateChanged(
-        lifecycleOwner: LifecycleOwner, onStateChange: (VS) -> Unit
+        lifecycleOwner: LifecycleOwner, onStateChange: (Any) -> Unit
     ) {
 
         _lifecycleOwner = lifecycleOwner
@@ -86,7 +86,7 @@ abstract class AbstractViewModel <VS: Any> : ViewModel() {
         invoker()
     }
 
-    protected fun setViewState(viewState: VS) {
+    protected fun setViewState(viewState: Any) {
         _lifecycleOwner?.let { lifecycleOwner ->
             if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
                 doInMainScope {
@@ -98,11 +98,11 @@ abstract class AbstractViewModel <VS: Any> : ViewModel() {
         }
     }
 
-    protected fun setLiveDataValue(viewState: VS) {
+    protected fun setLiveDataValue(viewState: Any) {
         _liveViewState.value = viewState
     }
 
-    protected fun postLiveDataValue(viewState: VS) {
+    protected fun postLiveDataValue(viewState: Any) {
         _liveViewState.postValue(viewState)
     }
 

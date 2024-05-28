@@ -27,7 +27,7 @@ internal fun String.toSnakeCase(): String {
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> AbstractActivity<*, *, *>.autoViewDataBinding(): T {
+internal fun <T: ViewDataBinding> AbstractActivity<*, *>.autoViewDataBinding(): T {
 
     val persistentClass : Class<T> = ( javaClass.genericSuperclass as ParameterizedType )
         .actualTypeArguments[0] as Class<T>
@@ -44,7 +44,7 @@ internal fun <T: ViewDataBinding> AbstractActivity<*, *, *>.autoViewDataBinding(
 }
 
 /** Automatically sets (ViewDataBinding) using generics detection */
-internal fun <T: ViewDataBinding> AbstractFragment<*, *, *>.autoViewDataBinding(
+internal fun <T: ViewDataBinding> AbstractFragment<*, *>.autoViewDataBinding(
     inflater: LayoutInflater, container: ViewGroup? = null, attachToParent: Boolean = false
 ): T {
 
